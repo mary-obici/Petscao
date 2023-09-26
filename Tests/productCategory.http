@@ -1,0 +1,25 @@
+### Criação de uma nova categoria
+POST https://localhost:7083/api/productCategory/post
+Content-Type: application/json
+
+{
+    "Name": "Categoria 01",
+    "Description": "desc 01"
+}
+
+### Obtenção de todas as categorias
+GET https://localhost:7083/api/productCategory/getAll
+
+### Obtenção de uma categoria específica pelo ID (substitua {id} pelo ID real)
+GET https://localhost:7083/api/productCategory/getByName/Alimento
+
+### Atualização de uma categoria existente pelo ID (substitua {id} pelo ID real)
+PUT https://localhost:7083/api/productCategory/put/2
+Content-Type: application/json
+
+{
+    "Nome": "Alimentos"
+}
+
+### Exclusão de uma categoria pelo ID (substitua {id} pelo ID real)
+DELETE https://localhost:7083/api/productCategory/delete/1
