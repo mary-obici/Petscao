@@ -2,7 +2,7 @@ namespace Petscao.Models;
 
 public class Address
 {
-    public int IdAddress { get; set; }
+    public int AddressId { get; set; }
     public string? Street { get; set; }
     public int Number { get; set; }
     public string? Neighborhood { get; set; }

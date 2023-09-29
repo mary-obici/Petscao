@@ -92,7 +92,7 @@ public class ProductCategoryController : ControllerBase
     {
         try
         {
-            ProductCategory? products = _ctx.ProductCategories.FirstOrDefault(x => x.IdProductCategory == id);
+            ProductCategory? products = _ctx.ProductCategories.FirstOrDefault(x => x.ProductCategoryId == id);
             if (products != null)
             {
                 products.Name = product.Name;

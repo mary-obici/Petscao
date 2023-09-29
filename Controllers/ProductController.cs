@@ -37,7 +37,7 @@ public class ProductController : ControllerBase
         // Console.WriteLine(guid.ToString());
         try
         {
-            product.ProductCategory = _ctx.ProductCategories.Find(product.IdProductCategory);
+            product.ProductCategory = _ctx.ProductCategories.Find(product.ProductCategoryId);
             _ctx.Products.Add(product);
             _ctx.SaveChanges();
             return Created("", product);
@@ -94,7 +94,7 @@ public class ProductController : ControllerBase
     {
         try
         {
-            Product? products = _ctx.Products.FirstOrDefault(x => x.IdProduct == id);
+            Product? products = _ctx.Products.FirstOrDefault(x => x.ProductId == id);
             if (products != null)
             {
                 products.Name = product.Name;
