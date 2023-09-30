@@ -1698,11 +1698,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\dev\\Mary\\Petscao\\Petscao.csproj",
+      "projectUniqueName": "c:\\dev\\Clone\\Petscao\\Petscao.csproj",
       "projectName": "Petscao",
-      "projectPath": "c:\\dev\\Mary\\Petscao\\Petscao.csproj",
+      "projectPath": "c:\\dev\\Clone\\Petscao\\Petscao.csproj",
       "packagesPath": "C:\\Users\\writt\\.nuget\\packages\\",
-      "outputPath": "c:\\dev\\Mary\\Petscao\\obj\\",
+      "outputPath": "c:\\dev\\Clone\\Petscao\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\writt\\AppData\\Roaming\\NuGet\\NuGet.Config"

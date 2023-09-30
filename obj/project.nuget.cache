@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "DjCR6bJu8CNfYU/mnJfEqfuFf6gR5zqgT1GqsOjZmZKmImUYhzj8fbK9BMkqs1w4SOzikgNAfhT5FEKDGKF0sA==",
+  "dgSpecHash": "vtdqWFCG9mK6j4EfNR8hjyYfKchpyAUnTJea1aSBuN1yu+9QlnGNTG7aeeJSekz59bEDlvlNOBK+1EuIOCvpKQ==",
   "success": true,
-  "projectFilePath": "C:\\dev\\Mary\\Petscao\\Petscao.csproj",
+  "projectFilePath": "C:\\dev\\Clone\\Petscao\\Petscao.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\writt\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\writt\\.nuget\\packages\\microsoft.data.sqlite.core\\6.0.22\\microsoft.data.sqlite.core.6.0.22.nupkg.sha512",
