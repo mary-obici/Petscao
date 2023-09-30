@@ -11,8 +11,8 @@ using Petscao.Data;
 namespace Petscao.Migrations
 {
     [DbContext(typeof(AppDataContext))]
-    [Migration("20230929004436_CreateTables")]
-    partial class CreateTables
+    [Migration("20230930190430_CreateData")]
+    partial class CreateData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

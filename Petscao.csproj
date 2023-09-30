@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Tests\Product.http" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Tests\Product.http" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.22" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.22">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -17,7 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Tests\" />
+    <Folder Include="Data\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

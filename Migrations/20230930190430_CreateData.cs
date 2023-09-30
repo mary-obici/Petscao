@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Petscao.Migrations
 {
-    public partial class CreateTables : Migration
+    public partial class CreateData : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
