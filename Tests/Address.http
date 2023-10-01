@@ -13,8 +13,8 @@ Content-Type: application/json
 GET https://localhost:5001/api/Address/getAll
 
 
-# ### search by ID or NAME, but it's not searching
-# GET https://localhost:5001/api/Address/getNumber/12
+### search by ID or NAME, but it's not searching
+GET https://localhost:5001/api/Address/getByNumber/123
 
 ### update an existing address by ID 
 PUT https://localhost:5001/api/Address/put/3
