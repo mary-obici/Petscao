@@ -49,7 +49,7 @@ public class AddressController : ControllerBase
 
     [HttpGet]
     [Route("getByNumber/{number}")]
-    public IActionResult GetByCEP([FromRoute] int number)
+    public IActionResult GetByNumber([FromRoute] int number)
     {
         try
         {
