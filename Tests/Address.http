@@ -1,0 +1,33 @@
+POST https://localhost:5001/api/Address/post
+Content-Type: application/json
+
+{
+    "Street": "Equador",
+    "Number": 383,
+    "Neighborhood": "Nacione",
+    "City": "Curitoba",
+    "CEP": "0123456"
+}
+
+### get all addresses 
+GET https://localhost:5001/api/Address/getAll
+
+
+# ### search by ID or NAME, but it's not searching
+# GET https://localhost:5001/api/Address/getNumber/12
+
+### update an existing address by ID 
+PUT https://localhost:5001/api/Address/put/3
+Content-Type: application/json
+
+{ 
+    "Street": "TESTE",
+    "Number": 15,
+    "Neighborhood": "AAA",
+    "City": "AAAA",
+    "CEP": "2222"
+}
+
+
+### deletion of a address by ID
+DELETE https://localhost:5001/api/Address/delete/1

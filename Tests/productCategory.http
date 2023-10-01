@@ -3,8 +3,8 @@ POST https://localhost:5001/api/productCategory/post
 Content-Type: application/json
 
 {
-    "Name": "C",
-    "Description": "C"
+    "Name": "A",
+    "Description": "B"
 }
 
 ### Obtenção de todas as categorias
@@ -14,13 +14,13 @@ GET https://localhost:5001/api/productCategory/getAll
 GET https://localhost:5001/api/productCategory/getByName/C
 
 ### Atualização de uma categoria existente pelo ID (substitua {id} pelo ID real)
-PUT https://localhost:5001/api/productCategory/put/11
+PUT https://localhost:5001/api/productCategory/put/5
 Content-Type: application/json
 
 {
-    "Name": "Cini de Abacaxi",
+    "Name": "Cini de Framboesa",
     "Description": "Refri"
 }
 
 ### Exclusão de uma categoria pelo ID (substitua {id} pelo ID real)
-DELETE https://localhost:5001/api/productCategory/delete/8
+DELETE https://localhost:5001/api/productCategory/delete/3

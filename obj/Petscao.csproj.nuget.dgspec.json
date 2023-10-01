@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\dev\\Clone\\Petscao\\Petscao.csproj": {}
+    "C:\\dev\\Testes\\Petscao\\Petscao.csproj": {}
   },
   "projects": {
-    "C:\\dev\\Clone\\Petscao\\Petscao.csproj": {
+    "C:\\dev\\Testes\\Petscao\\Petscao.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\dev\\Clone\\Petscao\\Petscao.csproj",
+        "projectUniqueName": "C:\\dev\\Testes\\Petscao\\Petscao.csproj",
         "projectName": "Petscao",
-        "projectPath": "C:\\dev\\Clone\\Petscao\\Petscao.csproj",
+        "projectPath": "C:\\dev\\Testes\\Petscao\\Petscao.csproj",
         "packagesPath": "C:\\Users\\writt\\.nuget\\packages\\",
-        "outputPath": "C:\\dev\\Clone\\Petscao\\obj\\",
+        "outputPath": "C:\\dev\\Testes\\Petscao\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\writt\\AppData\\Roaming\\NuGet\\NuGet.Config"

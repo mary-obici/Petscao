@@ -1,0 +1,30 @@
+### create of a service
+POST https://localhost:5001/api/Service/post
+Content-Type: application/json
+
+{
+    "Name": "BBB",
+    "Description": "BBB",
+    "Code": "BBB",
+    "UnitPrice": 100.00
+}
+
+### all services 
+GET https://localhost:5001/api/Service/getAll
+
+###search by name
+GET https://localhost:5001/api/Service/getByName/BBB
+
+### update an existing service by ID 
+PUT https://localhost:5001/api/Service/put/3
+Content-Type: application/json
+
+{
+    "Name": "Cini Abacaxi",
+    "Description": "Refri",
+    "Code": "BBB",
+    "UnitPrice": 250.00
+}
+
+### deletion of a service by ID
+DELETE https://localhost:5001/api/Service/delete/3
