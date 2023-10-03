@@ -17,7 +17,6 @@ public class AppDataContext : DbContext
     public DbSet<Service> Services { get; set; } 
     public DbSet<Supplier> Suppliers { get; set; }
     public DbSet<Timeline> Timeline { get; set; }
-    public object Address { get; internal set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -1,20 +1,24 @@
 ### Criação de uma nova categoria
-POST https://localhost:5001/api/productCategory/post
+POST https://localhost:5001/api/product/post
 Content-Type: application/json
 
 {
     "Name": "AAA",
-    "Description": "AAA"
+    "Description": "AAA",
+    "Code": "AAA",
+    "UnitPrice": 3.2,
+    "Amount": 3,
+    "ProductCategoryId": 
 }
 
 ### Obtenção de todas as categorias
-GET https://localhost:5001/api/productCategory/getAll
+GET https://localhost:5001/api/product/getAll
 
 ### Obtenção de uma categoria específica pelo ID (substitua {id} pelo ID real)
-GET https://localhost:5001/api/productCategory/getByName/C
+GET https://localhost:5001/api/product/getByName/C
 
 ### Atualização de uma categoria existente pelo ID (substitua {id} pelo ID real)
-PUT https://localhost:5001/api/productCategory/put/5
+PUT https://localhost:5001/api/product/put/5
 Content-Type: application/json
 
 {
@@ -23,4 +27,4 @@ Content-Type: application/json
 }
 
 ### Exclusão de uma categoria pelo ID (substitua {id} pelo ID real)
-DELETE https://localhost:5001/api/productCategory/delete/3
+DELETE https://localhost:5001/api/product/delete/3

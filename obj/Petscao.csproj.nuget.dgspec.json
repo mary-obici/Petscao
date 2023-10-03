@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\dev\\Testes\\Petscao\\Petscao.csproj": {}
+    "C:\\xampp\\htdocs\\Petscao\\Petscao.csproj": {}
   },
   "projects": {
-    "C:\\dev\\Testes\\Petscao\\Petscao.csproj": {
+    "C:\\xampp\\htdocs\\Petscao\\Petscao.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\dev\\Testes\\Petscao\\Petscao.csproj",
+        "projectUniqueName": "C:\\xampp\\htdocs\\Petscao\\Petscao.csproj",
         "projectName": "Petscao",
-        "projectPath": "C:\\dev\\Testes\\Petscao\\Petscao.csproj",
-        "packagesPath": "C:\\Users\\writt\\.nuget\\packages\\",
-        "outputPath": "C:\\dev\\Testes\\Petscao\\obj\\",
+        "projectPath": "C:\\xampp\\htdocs\\Petscao\\Petscao.csproj",
+        "packagesPath": "C:\\Users\\maryeli.obici\\.nuget\\packages\\",
+        "outputPath": "C:\\xampp\\htdocs\\Petscao\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\writt\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\maryeli.obici\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"

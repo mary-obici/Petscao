@@ -34,7 +34,6 @@ public class AddressController : ControllerBase
     [Route("post")]
     public IActionResult Post([FromBody] Address address)
     {
-        Guid guid = Guid.NewGuid();
         try
         {
             _ctx.Adresses.Add(address);
@@ -48,12 +47,12 @@ public class AddressController : ControllerBase
     }
 
     [HttpGet]
-    [Route("getByNumber/{number}")]
-    public IActionResult GetByNumber([FromRoute] int number)
+    [Route("getByStreet/{street}")]
+    public IActionResult GetByStreet([FromRoute] string street)
     {
         try
         {
-            Address? adresses = _ctx.Adresses.FirstOrDefault(x => x.Number == number);
+            Address? adresses = _ctx.Adresses.FirstOrDefault(x => x.Street == street);
             if (adresses != null)
             {
                 return Ok(adresses);
@@ -100,9 +99,11 @@ public class AddressController : ControllerBase
                 adresses.Number = address.Number;
                 adresses.City = address.City;
                 adresses.Neighborhood = address.Neighborhood;
-                adresses.CEP = address.CEP;    
+                adresses.CEP = address.CEP;
+
                 _ctx.Adresses.Update(adresses);
                 _ctx.SaveChanges();
+                
                 return Ok();
             }
             return NotFound();

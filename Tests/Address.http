@@ -2,7 +2,7 @@ POST https://localhost:5001/api/Address/post
 Content-Type: application/json
 
 {
-    "Street": "Equador",
+    "Street": "aaaaaaaaaaa",
     "Number": 383,
     "Neighborhood": "Nacione",
     "City": "Curitoba",
@@ -14,7 +14,7 @@ GET https://localhost:5001/api/Address/getAll
 
 
 ### search by ID or NAME, but it's not searching
-GET https://localhost:5001/api/Address/getByNumber/123
+GET https://localhost:5001/api/Address/getByStreet/aaaaaaaaaaa
 
 ### update an existing address by ID 
 PUT https://localhost:5001/api/Address/put/3

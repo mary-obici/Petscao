@@ -1,0 +1,33 @@
+POST https://localhost:5001/api/Customer/post
+Content-Type: application/json
+
+{
+    "Name": "Customer 01",
+    "CPF": "00000000000",
+    "Phone": "00000000000",
+    "Email": "teste@teste.com",
+    "AddressId": 2
+}
+
+### get all Customer 
+GET https://localhost:5001/api/Customer/getAll
+
+
+### search by ID or NAME, but it's not searching
+GET https://localhost:5001/api/Customer/getByStreet/aaaaaaaaaaa
+
+### update an existing Customer by ID 
+PUT https://localhost:5001/api/Customer/put/3
+Content-Type: application/json
+
+{ 
+    "Street": "TESTE",
+    "Number": 15,
+    "Neighborhood": "AAA",
+    "City": "AAAA",
+    "CEP": "2222"
+}
+
+
+### deletion of a Customer by ID
+DELETE https://localhost:5001/api/Customer/delete/1

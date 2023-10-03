@@ -1,0 +1,29 @@
+POST https://localhost:5001/api/Animal/post
+Content-Type: application/json
+
+{
+    "Name": "Animal 0'",
+    "Breed": "raça",
+    "CustomerId": 1
+}
+
+### get all addresses 
+GET https://localhost:5001/api/Animal/getAll
+
+
+### search by ID or NAME, but it's not searching
+GET https://localhost:5001/api/Address/getByName/aaaaaaaaaaa
+
+### update an existing address by ID 
+PUT https://localhost:5001/api/Animal/put/1
+Content-Type: application/json
+
+{
+    "Name": "Animal 1'",
+    "Breed": "raça",
+    "CustomerId": 1
+}
+
+
+### deletion of a address by ID
+DELETE https://localhost:5001/api/Animal/delete/1

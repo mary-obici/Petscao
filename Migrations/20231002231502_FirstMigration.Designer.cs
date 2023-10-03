@@ -11,8 +11,8 @@ using Petscao.Data;
 namespace Petscao.Migrations
 {
     [DbContext(typeof(AppDataContext))]
-    [Migration("20230930232131_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20231002231502_FirstMigration")]
+    partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
