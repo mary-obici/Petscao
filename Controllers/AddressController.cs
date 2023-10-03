@@ -46,6 +46,25 @@ public class AddressController : ControllerBase
         }
     }
 
+    [HttpPost]
+    [Route("postDate")]
+    public IActionResult PostDate([FromBody] Address address)
+    {
+        try
+        {
+            address.CreatedAt = DateTime.UtcNow;
+            _ctx.Adresses.Add(address); // Adicione o endereço ao contexto
+            _ctx.SaveChanges();
+            return Created("", address);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+
+
     [HttpGet]
     [Route("getByStreet/{street}")]
     public IActionResult GetByStreet([FromRoute] string street)
@@ -103,7 +122,7 @@ public class AddressController : ControllerBase
 
                 _ctx.Adresses.Update(adresses);
                 _ctx.SaveChanges();
-                
+
                 return Ok();
             }
             return NotFound();

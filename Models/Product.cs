@@ -12,4 +12,6 @@ public class Product
     public int ProductCategoryId { get; set; }
     public Supplier? Supplier { get; set; }
     public int SupplierId { get; set; }
+    public DateTime CreatedAt { get; set; }
+
 }

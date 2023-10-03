@@ -1,4 +1,16 @@
-POST https://localhost:5001/api/Address/post
+# POST https://localhost:5001/api/Address/post
+# Content-Type: application/json
+
+# {
+#     "Street": "aaaaaaaaaaa",
+#     "Number": 383,
+#     "Neighborhood": "Nacione",
+#     "City": "Curitoba",
+#     "CEP": "0123456"
+# }
+
+
+POST https://localhost:5001/api/Address/postDate
 Content-Type: application/json
 
 {
@@ -8,6 +20,7 @@ Content-Type: application/json
     "City": "Curitoba",
     "CEP": "0123456"
 }
+
 
 ### get all addresses 
 GET https://localhost:5001/api/Address/getAll
