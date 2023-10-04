@@ -1,6 +1,7 @@
 ﻿using Petscao.Data;
 using Petscao.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApi.Controllers;
 
@@ -20,7 +21,12 @@ public class ProductController : ControllerBase
     {
         try
         {
-            List<Product> products = _ctx.Products.ToList();
+            List<Product> products = 
+                _ctx.Products
+                .Include(x => x.Supplier)
+                .Include(x => x.ProductCategory)
+                .ToList();
+
             return products.Count == 0 ? NotFound() : Ok(products);
         }
         catch (Exception e)
@@ -33,11 +39,24 @@ public class ProductController : ControllerBase
     [Route("post")]
     public IActionResult Post([FromBody] Product product)
     {
-        Guid guid = Guid.NewGuid();
-        // Console.WriteLine(guid.ToString());
         try
         {
-            product.ProductCategory = _ctx.ProductCategories.Find(product.ProductCategoryId);
+            Supplier supplier = _ctx.Suppliers.Find(product.SupplierId);
+
+            if (supplier == null){
+                return NotFound();
+            }
+
+            ProductCategory productCategory = _ctx.ProductCategories.Find(product.ProductCategoryId);
+
+            if (productCategory == null){
+                return NotFound();
+            }
+
+            product.CreatedAt = DateTime.UtcNow;
+            product.Supplier = supplier;
+            product.ProductCategory = productCategory;
+
             _ctx.Products.Add(product);
             _ctx.SaveChanges();
             return Created("", product);
@@ -49,12 +68,16 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    [Route("getByName/{name}")]
-    public IActionResult GetByName([FromRoute] string name)
+    [Route("getByCode/{code}")]
+    public IActionResult GetByCode([FromRoute] string code)
     {
         try
         {
-            Product? products = _ctx.Products.FirstOrDefault(x => x.Name == name);
+            Product? products = _ctx.Products
+                .Include(x => x.Supplier)
+                .Include(x => x.ProductCategory)
+                .FirstOrDefault(x => x.Code == code);
+
             if (products != null)
             {
                 return Ok(products);
@@ -94,6 +117,18 @@ public class ProductController : ControllerBase
     {
         try
         {
+            Supplier supplier = _ctx.Suppliers.Find(product.SupplierId);
+
+            if (supplier == null) {
+                return NotFound();
+            }
+
+            ProductCategory productCategory = _ctx.ProductCategories.Find(product.ProductCategoryId);
+
+            if (productCategory == null) {
+                return NotFound();
+            }
+
             Product? products = _ctx.Products.FirstOrDefault(x => x.ProductId == id);
             if (products != null)
             {
@@ -101,6 +136,10 @@ public class ProductController : ControllerBase
                 products.Description = product.Description;
                 products.UnitPrice = product.UnitPrice;
                 products.Amount = product.Amount;
+
+                products.Supplier = supplier;
+                products.ProductCategory = productCategory;
+
                 _ctx.Products.Update(products);
                 _ctx.SaveChanges();
                 return Ok();
