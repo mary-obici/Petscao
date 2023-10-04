@@ -40,6 +40,15 @@ namespace WebApi.Controllers
         {
             try
             {
+                Address address = _ctx.Adresses.Find(supplier.AddressId);
+
+                if (address == null) {
+                    return NotFound();
+                }
+
+                supplier.CreatedAt = DateTime.UtcNow;
+                supplier.Address = address;
+
                 _ctx.Suppliers.Add(supplier);
                 _ctx.SaveChanges();
 
@@ -52,14 +61,14 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("getById/{id}")]
-        public IActionResult GetById([FromRoute] int id)
+        [Route("getByString/{name}")]
+        public IActionResult GetByName([FromRoute] string name)
         {
             try
             {
                 Supplier? supplier = _ctx.Suppliers
                     .Include(x => x.Address)
-                    .FirstOrDefault(x => x.SupplierId == id);
+                    .FirstOrDefault(x => x.FantasyName == name);
 
                 if (supplier != null)
                 {
@@ -102,6 +111,12 @@ namespace WebApi.Controllers
         {
             try
             {
+                Address address = _ctx.Adresses.Find(supplier.AddressId);
+
+                if (address == null) {
+                    return NotFound();
+                }
+
                 Supplier? existingSupplier = _ctx.Suppliers.FirstOrDefault(x => x.SupplierId == id);
 
                 if (existingSupplier != null)
@@ -111,7 +126,8 @@ namespace WebApi.Controllers
                     existingSupplier.CNPJ = supplier.CNPJ;
                     existingSupplier.Phone = supplier.Phone;
                     existingSupplier.Email = supplier.Email;
-                    existingSupplier.AddressId = supplier.AddressId;
+
+                    existingSupplier.Address = address;
 
                     _ctx.Suppliers.Update(existingSupplier);
                     _ctx.SaveChanges();

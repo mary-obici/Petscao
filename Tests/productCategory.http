@@ -3,7 +3,7 @@ POST https://localhost:5001/api/productCategory/post
 Content-Type: application/json
 
 {
-    "Name": "AAA",
+    "Name": "bbb",
     "Description": "AAA"
 }
 

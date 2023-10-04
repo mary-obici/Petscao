@@ -47,6 +47,7 @@ public class AnimalController : ControllerBase
                 return NotFound();
             }
 
+            animal.CreatedAt = DateTime.UtcNow;
             animal.Customer = customer;
 
             _ctx.Animals.Add(animal);

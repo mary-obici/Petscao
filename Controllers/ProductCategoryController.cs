@@ -33,9 +33,9 @@ public class ProductCategoryController : ControllerBase
     [Route("post")]
     public IActionResult Post([FromBody] ProductCategory product)
     {
-        Guid guid = Guid.NewGuid();
         try
         {
+            product.CreatedAt = DateTime.UtcNow;
             _ctx.ProductCategories.Add(product);
             _ctx.SaveChanges();
             return Created("", product);

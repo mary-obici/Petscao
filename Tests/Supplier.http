@@ -1,0 +1,35 @@
+POST https://localhost:5001/api/Supplier/post
+Content-Type: application/json
+
+{
+    "CorporateReason": "supplier 01",
+    "FantasyName": "supplier 01",
+    "CNPJ": "0000000000001",
+    "Phone": "00000000000",
+    "Email": "teste@teste.com",
+    "AddressId": 1
+}
+
+### get all Customer 
+GET https://localhost:5001/api/Supplier/getAll
+
+
+### search by ID or NAME, but it's not searching
+GET https://localhost:5001/api/Supplier/getByName/aaaaaaaaaaa
+
+### update an existing Customer by ID 
+PUT https://localhost:5001/api/Supplier/put/1
+Content-Type: application/json
+
+{
+    "CorporateReason": "supplier 01",
+    "FantasyName": "supplier 01",
+    "CNPJ": "0000000000001",
+    "Phone": "00000000000",
+    "Email": "teste@teste.com",
+    "AddressId": 1
+}
+
+
+### deletion of a Customer by ID
+DELETE https://localhost:5001/api/Supplier/delete/1

@@ -12,7 +12,7 @@ Content-Type: application/json
 }
 
 ### Obtenção de todas as categorias
-GET https://localhost:5001/api/product/getAll
+GET https://localhost:5001/api/Product/getAll
 
 ### Obtenção de uma categoria específica pelo ID (substitua {id} pelo ID real)
 GET https://localhost:5001/api/product/getByName/C

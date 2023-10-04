@@ -21,7 +21,7 @@ Content-Type: application/json
 {
     "Name": "Animal 1'",
     "Breed": "raça",
-    "CustomerId": 1
+    "CustomerId": 4
 }
 
 

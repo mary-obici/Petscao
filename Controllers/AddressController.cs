@@ -36,6 +36,7 @@ public class AddressController : ControllerBase
     {
         try
         {
+            address.CreatedAt = DateTime.UtcNow;
             _ctx.Adresses.Add(address);
             _ctx.SaveChanges();
             return Created("", address);
@@ -45,25 +46,6 @@ public class AddressController : ControllerBase
             return BadRequest(e.Message);
         }
     }
-
-    [HttpPost]
-    [Route("postDate")]
-    public IActionResult PostDate([FromBody] Address address)
-    {
-        try
-        {
-            address.CreatedAt = DateTime.UtcNow;
-            _ctx.Adresses.Add(address); // Adicione o endereço ao contexto
-            _ctx.SaveChanges();
-            return Created("", address);
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
-    }
-
-
 
     [HttpGet]
     [Route("getByStreet/{street}")]

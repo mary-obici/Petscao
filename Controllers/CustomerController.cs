@@ -47,6 +47,7 @@ public class CustomerController : ControllerBase
                 return NotFound();
             }
 
+            customer.CreatedAt = DateTime.UtcNow;
             customer.Address = address;
 
             _ctx.Customers.Add(customer);
@@ -113,6 +114,12 @@ public class CustomerController : ControllerBase
     {
         try
         {
+            Address address = _ctx.Adresses.Find(customer.AddressId);
+
+            if (address == null) {
+                return NotFound();
+            }
+
             Customer? customers = _ctx.Customers.FirstOrDefault(x => x.CustomerId == id);
             if (customers != null)
             {
@@ -120,6 +127,8 @@ public class CustomerController : ControllerBase
                 customers.CPF = customer.CPF;
                 customers.Phone = customer.Phone;
                 customers.Email = customer.Email;
+
+                customers.Address = address;
 
                 _ctx.Customers.Update(customers);
                 _ctx.SaveChanges();

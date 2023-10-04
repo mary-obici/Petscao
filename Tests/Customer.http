@@ -17,15 +17,15 @@ GET https://localhost:5001/api/Customer/getAll
 GET https://localhost:5001/api/Customer/getByStreet/aaaaaaaaaaa
 
 ### update an existing Customer by ID 
-PUT https://localhost:5001/api/Customer/put/3
+PUT https://localhost:5001/api/Customer/put/1
 Content-Type: application/json
 
-{ 
-    "Street": "TESTE",
-    "Number": 15,
-    "Neighborhood": "AAA",
-    "City": "AAAA",
-    "CEP": "2222"
+{
+    "Name": "Customer 01",
+    "CPF": "00000000000",
+    "Phone": "00000000000",
+    "Email": "teste@teste.com",
+    "AddressId": 1
 }
 
 

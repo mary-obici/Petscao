@@ -113,7 +113,6 @@ namespace WebApi.Controllers
                     existingTimeline.CustomerId = timeline.CustomerId;
                     existingTimeline.AnimalId = timeline.AnimalId;
                     existingTimeline.ServiceId = timeline.ServiceId;
-                    existingTimeline.Date = timeline.Date;
 
                     _ctx.Timeline.Update(existingTimeline);
                     _ctx.SaveChanges();

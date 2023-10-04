@@ -7,4 +7,5 @@ public class Service
     public string? Description { get; set; }
     public string? Code { get; set; }
     public double UnitPrice { get; set; }
+    public DateTime CreatedAt { get; set; }
 }

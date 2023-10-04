@@ -9,5 +9,5 @@ public class Timeline
     public int AnimalId { get; set; }
     public Service? Service { get; set; }
     public int ServiceId { get; set; }
-    public DateTime Date { get; set; }
+    public DateTime CreatedAt { get; set; }
 }

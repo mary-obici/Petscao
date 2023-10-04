@@ -8,4 +8,5 @@ public class Sale
     public Employee? Employee { get; set; }
     public int EmployeeId { get; set; }
     public double TotalPrice { get; set; }
+    public DateTime CreatedAt { get; set; }
 }
