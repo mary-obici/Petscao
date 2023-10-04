@@ -42,6 +42,29 @@ namespace WebApi.Controllers
         {
             try
             {
+                Customer customer = _ctx.Customers.Find(timeline.CustomerId);
+
+                if (customer == null) {
+                    return NotFound();
+                }
+
+                Animal animal = _ctx.Animals.Find(timeline.AnimalId);
+
+                if (animal == null) {
+                    return NotFound();
+                }
+
+                Service service = _ctx.Services.Find(timeline.ServiceId);
+
+                if (service == null) {
+                    return NotFound();
+                }
+
+                timeline.CreatedAt = DateTime.UtcNow;
+                timeline.Customer = customer;
+                timeline.Animal = animal;
+                timeline.Service = service;
+
                 _ctx.Timeline.Add(timeline);
                 _ctx.SaveChanges();
 
@@ -106,13 +129,31 @@ namespace WebApi.Controllers
         {
             try
             {
+                Customer customer = _ctx.Customers.Find(timeline.CustomerId);
+
+                if (customer == null) {
+                    return NotFound();
+                }
+
+                Animal animal = _ctx.Animals.Find(timeline.AnimalId);
+
+                if (animal == null) {
+                    return NotFound();
+                }
+
+                Service service = _ctx.Services.Find(timeline.ServiceId);
+
+                if (service == null) {
+                    return NotFound();
+                }
+
                 Timeline? existingTimeline = _ctx.Timeline.FirstOrDefault(x => x.TimelineId == id);
 
                 if (existingTimeline != null)
                 {
-                    existingTimeline.CustomerId = timeline.CustomerId;
-                    existingTimeline.AnimalId = timeline.AnimalId;
-                    existingTimeline.ServiceId = timeline.ServiceId;
+                    existingTimeline.Customer = customer;
+                    existingTimeline.Animal = animal;
+                    existingTimeline.Service = service;
 
                     _ctx.Timeline.Update(existingTimeline);
                     _ctx.SaveChanges();

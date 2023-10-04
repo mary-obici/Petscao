@@ -20,7 +20,7 @@ public class ServiceController : ControllerBase
     {
         try
         {
-            List<Service> services = _ctx.Services.ToList(); // Certifique-se de que _ctx está configurado corretamente para Services
+            List<Service> services = _ctx.Services.ToList();
             return services.Count == 0 ? NotFound() : Ok(services);
         }
         catch (Exception e)
@@ -33,9 +33,10 @@ public class ServiceController : ControllerBase
     [Route("post")]
     public IActionResult Post([FromBody] Service service)
     {
-        Guid guid = Guid.NewGuid();
         try
         {
+            service.CreatedAt = DateTime.UtcNow;
+
             _ctx.Services.Add(service);
             _ctx.SaveChanges();
             return Created("", service);
@@ -99,6 +100,7 @@ public class ServiceController : ControllerBase
                 services.Description = service.Description;
                 services.Code = service.Code;
                 services.UnitPrice = service.UnitPrice;
+                
                 _ctx.Services.Update(services);
                 _ctx.SaveChanges();
                 return Ok();

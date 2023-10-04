@@ -1,0 +1,30 @@
+POST https://localhost:5001/api/Timeline/post
+Content-Type: application/json
+
+{
+    "CustomerId": 1,
+    "AnimalId": 1,
+    "ServiceId": 1
+}
+
+### get all Customer 
+GET https://localhost:5001/api/Timeline/getAll
+
+
+### search by ID or NAME, but it's not searching
+GET https://localhost:5001/api/Timeline/getById/1
+
+### update an existing Customer by ID 
+PUT https://localhost:5001/api/Timeline/put/1
+Content-Type: application/json
+
+{
+    "CustomerId": 2,
+    "AnimalId": 1,
+    "ServiceId": 1
+}
+
+
+
+### deletion of a Customer by ID
+DELETE https://localhost:5001/api/Supplier/delete/1

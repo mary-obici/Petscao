@@ -8,7 +8,8 @@ Content-Type: application/json
     "Code": "AAA",
     "UnitPrice": 3.2,
     "Amount": 3,
-    "ProductCategoryId": 
+    "ProductCategoryId": 1,
+    "SupplierId": 1
 }
 
 ### Obtenção de todas as categorias
@@ -22,8 +23,13 @@ PUT https://localhost:5001/api/product/put/5
 Content-Type: application/json
 
 {
-    "Name": "Cini de Framboesa",
-    "Description": "Refri"
+    "Name": "AAA",
+    "Description": "AAA",
+    "Code": "AAA",
+    "UnitPrice": 3.2,
+    "Amount": 3,
+    "ProductCategoryId": 1,
+    "SupplierId": 1
 }
 
 ### Exclusão de uma categoria pelo ID (substitua {id} pelo ID real)
