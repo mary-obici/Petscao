@@ -11,8 +11,8 @@ using Petscao.Data;
 namespace Petscao.Migrations
 {
     [DbContext(typeof(AppDataContext))]
-    [Migration("20231003025542_AddCreatedAtToCustomer")]
-    partial class AddCreatedAtToCustomer
+    [Migration("20231005001349_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -116,6 +116,9 @@ namespace Petscao.Migrations
                     b.Property<string>("CPF")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Email")
                         .HasColumnType("TEXT");
 
@@ -142,6 +145,9 @@ namespace Petscao.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Code")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
@@ -174,6 +180,9 @@ namespace Petscao.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
@@ -190,6 +199,9 @@ namespace Petscao.Migrations
                     b.Property<int>("SaleId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("CustomerId")
                         .HasColumnType("INTEGER");
@@ -216,6 +228,9 @@ namespace Petscao.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Code")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
@@ -247,6 +262,9 @@ namespace Petscao.Migrations
                     b.Property<string>("CorporateReason")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Email")
                         .HasColumnType("TEXT");
 
@@ -272,11 +290,14 @@ namespace Petscao.Migrations
                     b.Property<int>("AnimalId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("CustomerId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("ServiceId")
                         .HasColumnType("INTEGER");
@@ -286,6 +307,8 @@ namespace Petscao.Migrations
                     b.HasIndex("AnimalId");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("ServiceId");
 
@@ -388,6 +411,12 @@ namespace Petscao.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Petscao.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Petscao.Models.Service", "Service")
                         .WithMany()
                         .HasForeignKey("ServiceId")
@@ -397,6 +426,8 @@ namespace Petscao.Migrations
                     b.Navigation("Animal");
 
                     b.Navigation("Customer");
+
+                    b.Navigation("Employee");
 
                     b.Navigation("Service");
                 });

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Petscao.Migrations
 {
-    public partial class FirstMigration : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,7 +19,8 @@ namespace Petscao.Migrations
                     Number = table.Column<int>(type: "INTEGER", nullable: false),
                     Neighborhood = table.Column<string>(type: "TEXT", nullable: true),
                     City = table.Column<string>(type: "TEXT", nullable: true),
-                    CEP = table.Column<string>(type: "TEXT", nullable: true)
+                    CEP = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,7 +34,8 @@ namespace Petscao.Migrations
                     ProductCategoryId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
-                    Description = table.Column<string>(type: "TEXT", nullable: true)
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -49,7 +51,8 @@ namespace Petscao.Migrations
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
                     Code = table.Column<string>(type: "TEXT", nullable: true),
-                    UnitPrice = table.Column<double>(type: "REAL", nullable: false)
+                    UnitPrice = table.Column<double>(type: "REAL", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -66,7 +69,8 @@ namespace Petscao.Migrations
                     CPF = table.Column<string>(type: "TEXT", nullable: true),
                     Phone = table.Column<string>(type: "TEXT", nullable: true),
                     Email = table.Column<string>(type: "TEXT", nullable: true),
-                    AddressId = table.Column<int>(type: "INTEGER", nullable: false)
+                    AddressId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -89,7 +93,8 @@ namespace Petscao.Migrations
                     CPF = table.Column<string>(type: "TEXT", nullable: true),
                     Phone = table.Column<string>(type: "TEXT", nullable: true),
                     Email = table.Column<string>(type: "TEXT", nullable: true),
-                    AddressId = table.Column<int>(type: "INTEGER", nullable: false)
+                    AddressId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -113,7 +118,8 @@ namespace Petscao.Migrations
                     CNPJ = table.Column<string>(type: "TEXT", nullable: true),
                     Phone = table.Column<string>(type: "TEXT", nullable: true),
                     Email = table.Column<string>(type: "TEXT", nullable: true),
-                    AddressId = table.Column<int>(type: "INTEGER", nullable: false)
+                    AddressId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -134,7 +140,8 @@ namespace Petscao.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     Breed = table.Column<string>(type: "TEXT", nullable: true),
-                    CustomerId = table.Column<int>(type: "INTEGER", nullable: false)
+                    CustomerId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -155,7 +162,8 @@ namespace Petscao.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     CustomerId = table.Column<int>(type: "INTEGER", nullable: false),
                     EmployeeId = table.Column<int>(type: "INTEGER", nullable: false),
-                    TotalPrice = table.Column<double>(type: "REAL", nullable: false)
+                    TotalPrice = table.Column<double>(type: "REAL", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -186,7 +194,8 @@ namespace Petscao.Migrations
                     UnitPrice = table.Column<double>(type: "REAL", nullable: false),
                     Amount = table.Column<int>(type: "INTEGER", nullable: false),
                     ProductCategoryId = table.Column<int>(type: "INTEGER", nullable: false),
-                    SupplierId = table.Column<int>(type: "INTEGER", nullable: false)
+                    SupplierId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -214,7 +223,8 @@ namespace Petscao.Migrations
                     CustomerId = table.Column<int>(type: "INTEGER", nullable: false),
                     AnimalId = table.Column<int>(type: "INTEGER", nullable: false),
                     ServiceId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Date = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    EmployeeId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -230,6 +240,12 @@ namespace Petscao.Migrations
                         column: x => x.CustomerId,
                         principalTable: "Customers",
                         principalColumn: "CustomerId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Timeline_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "EmployeeId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Timeline_Services_ServiceId",
@@ -290,6 +306,11 @@ namespace Petscao.Migrations
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Timeline_EmployeeId",
+                table: "Timeline",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Timeline_ServiceId",
                 table: "Timeline",
                 column: "ServiceId");
@@ -313,10 +334,10 @@ namespace Petscao.Migrations
                 name: "Suppliers");
 
             migrationBuilder.DropTable(
-                name: "Employees");
+                name: "Animals");
 
             migrationBuilder.DropTable(
-                name: "Animals");
+                name: "Employees");
 
             migrationBuilder.DropTable(
                 name: "Services");

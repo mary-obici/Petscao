@@ -6,7 +6,7 @@ Content-Type: application/json
     "CPF": "dfss 01",
     "Phone": "00000sfs00000001",
     "Email": "teste@teste.com",
-    "AddressId": 2
+    "AddressId": 4
 }
 
 ### get all Customer

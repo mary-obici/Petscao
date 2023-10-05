@@ -294,6 +294,9 @@ namespace Petscao.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("ServiceId")
                         .HasColumnType("INTEGER");
 
@@ -302,6 +305,8 @@ namespace Petscao.Migrations
                     b.HasIndex("AnimalId");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("ServiceId");
 
@@ -404,6 +409,12 @@ namespace Petscao.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Petscao.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Petscao.Models.Service", "Service")
                         .WithMany()
                         .HasForeignKey("ServiceId")
@@ -413,6 +424,8 @@ namespace Petscao.Migrations
                     b.Navigation("Animal");
 
                     b.Navigation("Customer");
+
+                    b.Navigation("Employee");
 
                     b.Navigation("Service");
                 });

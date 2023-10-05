@@ -9,5 +9,7 @@ public class Timeline
     public int AnimalId { get; set; }
     public Service? Service { get; set; }
     public int ServiceId { get; set; }
+    public  Employee? Employee { get; set;}
+    public int EmployeeId { get; set; }
     public DateTime CreatedAt { get; set; }
 }

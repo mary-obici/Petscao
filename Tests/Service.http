@@ -3,9 +3,9 @@ POST https://localhost:5001/api/Service/post
 Content-Type: application/json
 
 {
-    "Name": "BBB",
-    "Description": "BBB",
-    "Code": "BBB",
+    "Name": "Banho",
+    "Description": "AAAA",
+    "Code": "0202",
     "UnitPrice": 100.00
 }
 

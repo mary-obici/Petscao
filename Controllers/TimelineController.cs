@@ -26,6 +26,7 @@ namespace WebApi.Controllers
                     .Include(x => x.Customer)
                     .Include(x => x.Animal)
                     .Include(x => x.Service)
+                    .Include(x => x.Employee)
                     .ToList();
 
                 return timelines.Count == 0 ? NotFound() : Ok(timelines);
@@ -54,9 +55,19 @@ namespace WebApi.Controllers
                     return NotFound();
                 }
 
+                 if (animal.CustomerId != timeline.CustomerId) {
+                    return BadRequest("O animal não pertence ao cliente especificado.");
+                }
+
                 Service service = _ctx.Services.Find(timeline.ServiceId);
 
                 if (service == null) {
+                    return NotFound();
+                }
+
+                Employee employee = _ctx.Employees.Find(timeline.EmployeeId);
+
+                if (employee == null) {
                     return NotFound();
                 }
 
@@ -64,6 +75,7 @@ namespace WebApi.Controllers
                 timeline.Customer = customer;
                 timeline.Animal = animal;
                 timeline.Service = service;
+                timeline.Employee = employee;
 
                 _ctx.Timeline.Add(timeline);
                 _ctx.SaveChanges();
@@ -86,6 +98,7 @@ namespace WebApi.Controllers
                     .Include(x => x.Customer)
                     .Include(x => x.Animal)
                     .Include(x => x.Service)
+                    .Include(x => x.Employee)
                     .FirstOrDefault(x => x.TimelineId == id);
 
                 if (timeline != null)
@@ -146,6 +159,12 @@ namespace WebApi.Controllers
                 if (service == null) {
                     return NotFound();
                 }
+                
+                Employee employee = _ctx.Employees.Find(timeline.EmployeeId);
+
+                if (employee == null) {
+                    return NotFound();
+                }
 
                 Timeline? existingTimeline = _ctx.Timeline.FirstOrDefault(x => x.TimelineId == id);
 
@@ -154,6 +173,7 @@ namespace WebApi.Controllers
                     existingTimeline.Customer = customer;
                     existingTimeline.Animal = animal;
                     existingTimeline.Service = service;
+                    existingTimeline.Employee = employee;
 
                     _ctx.Timeline.Update(existingTimeline);
                     _ctx.SaveChanges();

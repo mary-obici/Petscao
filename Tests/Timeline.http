@@ -2,9 +2,10 @@ POST https://localhost:5001/api/Timeline/post
 Content-Type: application/json
 
 {
-    "CustomerId": 1,
-    "AnimalId": 1,
-    "ServiceId": 1
+    "CustomerId": 3,
+    "AnimalId": 2,
+    "ServiceId": 3,
+    "EmployeeId": 2
 }
 
 ### get all Customer 
