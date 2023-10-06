@@ -2,10 +2,13 @@ POST https://localhost:5001/api/Timeline/post
 Content-Type: application/json
 
 {
-    "CustomerId": 3,
-    "AnimalId": 2,
+    "CustomerId": 4,
+    "AnimalId": 4,
     "ServiceId": 3,
-    "EmployeeId": 2
+    "EmployeeId": 3,
+    "StartDate": "10/10/2023 14:30:00",
+    "EndDate": "10/10/2023 16:45:00"
+
 }
 
 ### get all Customer 

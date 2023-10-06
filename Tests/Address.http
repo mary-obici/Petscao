@@ -3,11 +3,11 @@ POST https://localhost:5001/api/Address/post
 Content-Type: application/json
 
 {
-    "Street": "Equador",
-    "Number": 383,
-    "Neighborhood": "Nacoes",
-    "City": "Farm Big River",
-    "CEP": "12345678-10"
+    "Street": "Sebastião",
+    "Number": 3100,
+    "Neighborhood": "Bairro Alto",
+    "City": "Curitiba",
+    "CEP": "987987-85"
 }
 
 ### get all addresses 

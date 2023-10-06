@@ -2,11 +2,11 @@ POST https://localhost:5001/api/Customer/post
 Content-Type: application/json
 
 {
-    "Name": "Customer 02",
-    "CPF": "020202020",
-    "Phone": "0202020202",
+    "Name": "Emillyn",
+    "CPF": "14100036987",
+    "Phone": "4199826547",
     "Email": "teste@teste.com",
-    "AddressId": 1
+    "AddressId": 5
 }
 
 ### get all Customer 

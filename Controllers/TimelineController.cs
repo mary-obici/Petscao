@@ -2,6 +2,7 @@ using Petscao.Data;
 using Petscao.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 
 namespace WebApi.Controllers
@@ -43,31 +44,44 @@ namespace WebApi.Controllers
         {
             try
             {
+                DateTime? startDate = DateTime.ParseExact(timeline.StartDate?.ToString("dd/MM/yyyy HH:mm:ss"), "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                DateTime? endDate = DateTime.ParseExact(timeline.EndDate?.ToString("dd/MM/yyyy HH:mm:ss"), "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+
+                if (startDate >= endDate)
+                {
+                    return BadRequest("A data de início deve ser anterior à data de término.");
+                }
+
                 Customer customer = _ctx.Customers.Find(timeline.CustomerId);
 
-                if (customer == null) {
+                if (customer == null)
+                {
                     return NotFound();
                 }
 
                 Animal animal = _ctx.Animals.Find(timeline.AnimalId);
 
-                if (animal == null) {
+                if (animal == null)
+                {
                     return NotFound();
                 }
 
-                 if (animal.CustomerId != timeline.CustomerId) {
+                if (animal.CustomerId != timeline.CustomerId)
+                {
                     return BadRequest("O animal não pertence ao cliente especificado.");
                 }
 
                 Service service = _ctx.Services.Find(timeline.ServiceId);
 
-                if (service == null) {
+                if (service == null)
+                {
                     return NotFound();
                 }
 
                 Employee employee = _ctx.Employees.Find(timeline.EmployeeId);
 
-                if (employee == null) {
+                if (employee == null)
+                {
                     return NotFound();
                 }
 
@@ -76,11 +90,13 @@ namespace WebApi.Controllers
                 timeline.Animal = animal;
                 timeline.Service = service;
                 timeline.Employee = employee;
+                timeline.StartDate = startDate;
+                timeline.EndDate = endDate;
 
                 _ctx.Timeline.Add(timeline);
                 _ctx.SaveChanges();
 
-                return Created("", timeline);
+                return Created("", timeline);   
             }
             catch (Exception e)
             {
@@ -144,25 +160,29 @@ namespace WebApi.Controllers
             {
                 Customer customer = _ctx.Customers.Find(timeline.CustomerId);
 
-                if (customer == null) {
+                if (customer == null)
+                {
                     return NotFound();
                 }
 
                 Animal animal = _ctx.Animals.Find(timeline.AnimalId);
 
-                if (animal == null) {
+                if (animal == null)
+                {
                     return NotFound();
                 }
 
                 Service service = _ctx.Services.Find(timeline.ServiceId);
 
-                if (service == null) {
+                if (service == null)
+                {
                     return NotFound();
                 }
-                
+
                 Employee employee = _ctx.Employees.Find(timeline.EmployeeId);
 
-                if (employee == null) {
+                if (employee == null)
+                {
                     return NotFound();
                 }
 
