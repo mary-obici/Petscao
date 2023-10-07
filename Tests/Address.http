@@ -3,11 +3,11 @@ POST https://localhost:5001/api/Address/post
 Content-Type: application/json
 
 {
-    "Street": "Sebastião",
-    "Number": 3100,
-    "Neighborhood": "Bairro Alto",
-    "City": "Curitiba",
-    "CEP": "987987-85"
+    "Street": "TESTE",
+    "Number": 159,
+    "Neighborhood": "TESTE2",
+    "City": "TESTE",
+    "CEP": "8745267-78"
 }
 
 ### get all addresses 
@@ -15,10 +15,10 @@ GET https://localhost:5001/api/Address/getAll
 
 
 ### search by ID or NAME, but it's not searching
-GET https://localhost:5001/api/Address/getByStreet/aaaaaaaaaaa
+GET https://localhost:5001/api/Address/getByStreet/Equador
 
 ### update an existing address by ID 
-PUT https://localhost:5001/api/Address/put/3
+PUT https://localhost:5001/api/Address/put/4
 Content-Type: application/json
 
 { 
@@ -31,4 +31,4 @@ Content-Type: application/json
 
 
 ### deletion of a address by ID
-DELETE https://localhost:5001/api/Address/delete/1
+DELETE https://localhost:5001/api/Address/delete/4

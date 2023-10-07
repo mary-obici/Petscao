@@ -2,11 +2,11 @@ POST https://localhost:5001/api/Employee/post
 Content-Type: application/json
 
 {
-    "Name": "Funcionario A",
-    "CPF": "dfss441",
-    "Phone": "00000sfs00000001",
-    "Email": "teste@teste.com",
-    "AddressId": 4
+    "Name": "Funcionario Mayara",
+    "CPF": "00010020023",
+    "Phone": "4198264892122",
+    "Email": "funcionario1@teste.com",
+    "AddressId": 2
 }
 
 ### get all Customer

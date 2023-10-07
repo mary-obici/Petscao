@@ -3,10 +3,10 @@ POST https://localhost:5001/api/product/post
 Content-Type: application/json
 
 {
-    "Name": "AAA",
-    "Description": "AAA",
-    "Code": "AAA",
-    "UnitPrice": 3.2,
+    "Name": "Ração",
+    "Description": "Golden",
+    "Code": "0102Golden",
+    "UnitPrice": 24.9,
     "Amount": 3,
     "ProductCategoryId": 1,
     "SupplierId": 1

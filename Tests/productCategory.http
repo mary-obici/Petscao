@@ -3,8 +3,8 @@ POST https://localhost:5001/api/productCategory/post
 Content-Type: application/json
 
 {
-    "Name": "bbb",
-    "Description": "AAA"
+    "Name": "Ração",
+    "Description": "Golden"
 }
 
 ### Obtenção de todas as categorias

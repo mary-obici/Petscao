@@ -7,7 +7,7 @@ Content-Type: application/json
     "CNPJ": "0000000000001",
     "Phone": "00000000000",
     "Email": "teste@teste.com",
-    "AddressId": 1
+    "AddressId": 2
 }
 
 ### get all Customer 

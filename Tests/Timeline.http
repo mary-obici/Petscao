@@ -2,33 +2,34 @@ POST https://localhost:5001/api/Timeline/post
 Content-Type: application/json
 
 {
-    "CustomerId": 4,
-    "AnimalId": 4,
-    "ServiceId": 3,
-    "EmployeeId": 3,
-    "StartDate": "10/10/2023 14:30:00",
-    "EndDate": "10/10/2023 16:45:00"
+    "CustomerId": 1,
+    "AnimalId": 1,
+    "ServiceId": 1,
+    "EmployeeId": 1,
+    "StartDate": "2023-10-12T14:00",
+    "EndDate": "2023-10-12T14:31"
+    //ano-mes-dia-T(tempo)-hora-minuto-segundo-mile.
 
 }
 
 ### get all Customer 
 GET https://localhost:5001/api/Timeline/getAll
 
-
 ### search by ID or NAME, but it's not searching
 GET https://localhost:5001/api/Timeline/getById/1
 
 ### update an existing Customer by ID 
-PUT https://localhost:5001/api/Timeline/put/1
+PUT https://localhost:5001/api/Timeline/put/2
 Content-Type: application/json
 
 {
-    "CustomerId": 2,
+   "CustomerId": 1,
     "AnimalId": 1,
-    "ServiceId": 1
+    "ServiceId": 1,
+    "EmployeeId": 1,
+    "StartDate": "2023-12-03T10:14:22.7472071",
+    "EndDate": "2025-12-03T10:14:22.7472071"
 }
 
-
-
 ### deletion of a Customer by ID
-DELETE https://localhost:5001/api/Supplier/delete/1
+DELETE https://localhost:5001/api/Timeline/delete/7

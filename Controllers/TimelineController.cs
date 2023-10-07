@@ -28,6 +28,8 @@ namespace WebApi.Controllers
                     .Include(x => x.Animal)
                     .Include(x => x.Service)
                     .Include(x => x.Employee)
+                    .Include(x => x.StartDate)
+
                     .ToList();
 
                 return timelines.Count == 0 ? NotFound() : Ok(timelines);
@@ -44,14 +46,6 @@ namespace WebApi.Controllers
         {
             try
             {
-                DateTime? startDate = DateTime.ParseExact(timeline.StartDate?.ToString("dd/MM/yyyy HH:mm:ss"), "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-                DateTime? endDate = DateTime.ParseExact(timeline.EndDate?.ToString("dd/MM/yyyy HH:mm:ss"), "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
-
-                if (startDate >= endDate)
-                {
-                    return BadRequest("A data de início deve ser anterior à data de término.");
-                }
-
                 Customer customer = _ctx.Customers.Find(timeline.CustomerId);
 
                 if (customer == null)
@@ -85,6 +79,33 @@ namespace WebApi.Controllers
                     return NotFound();
                 }
 
+                //select agendamentos where idEmployee == recebido request 
+                List <Timeline> agendamentos = _ctx.Timeline.Where(timelineAgendadas => timelineAgendadas.EmployeeId 
+                == timeline.EmployeeId).ToList();
+
+                    bool horarioSobrepoe = agendamentos.Any(registro =>
+                    //14h >= 14h && 14h <= 14:30 || 
+                    // 13:30 >= 14h && 13:30 <= 14:30 
+                    (timeline.StartDate >= registro.StartDate && timeline.StartDate <= registro.EndDate) ||
+                    (timeline.EndDate >= registro.StartDate && timeline.EndDate <= registro.EndDate));
+                    // 14:30 >= 14h && 14:30 <= 14:30
+
+                    if(horarioSobrepoe == true ){
+                        return BadRequest("Horário ocupado! Altere para um disponível");
+                    }
+
+                //verifica null, alterar o que recebe para pt-br 
+                DateTime? startDate = DateTime.ParseExact(timeline.StartDate?.ToString("dd/MM/yyyy HH:mm") ??
+                "01/01/2000 00:00", "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
+
+                DateTime? endDate = DateTime.ParseExact(timeline.EndDate?.ToString("dd/MM/yyyy HH:mm") ??
+                "01/01/2000 00:00", "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
+
+                if (startDate >= endDate)
+                {
+                    return BadRequest("A data de início deve ser anterior à data de término.");
+                }
+
                 timeline.CreatedAt = DateTime.UtcNow;
                 timeline.Customer = customer;
                 timeline.Animal = animal;
@@ -96,7 +117,7 @@ namespace WebApi.Controllers
                 _ctx.Timeline.Add(timeline);
                 _ctx.SaveChanges();
 
-                return Created("", timeline);   
+                return Created("", timeline);
             }
             catch (Exception e)
             {
@@ -186,6 +207,17 @@ namespace WebApi.Controllers
                     return NotFound();
                 }
 
+                DateTime? startDate = DateTime.ParseExact(timeline.StartDate?.ToString("dd/MM/yyyy HH:mm:ss") ??
+                "01/01/2000 00:00:00", "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+
+                DateTime? endDate = DateTime.ParseExact(timeline.EndDate?.ToString("dd/MM/yyyy HH:mm:ss") ??
+                "01/01/2000 00:00:00", "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+
+                if (startDate >= endDate)
+                {
+                    return BadRequest("A data de início deve ser anterior à data de término.");
+                }
+
                 Timeline? existingTimeline = _ctx.Timeline.FirstOrDefault(x => x.TimelineId == id);
 
                 if (existingTimeline != null)
@@ -194,6 +226,8 @@ namespace WebApi.Controllers
                     existingTimeline.Animal = animal;
                     existingTimeline.Service = service;
                     existingTimeline.Employee = employee;
+                    existingTimeline.StartDate = startDate;
+                    existingTimeline.EndDate = endDate;
 
                     _ctx.Timeline.Update(existingTimeline);
                     _ctx.SaveChanges();
