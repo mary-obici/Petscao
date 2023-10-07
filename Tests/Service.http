@@ -13,16 +13,16 @@ Content-Type: application/json
 GET https://localhost:5001/api/Service/getAll
 
 ###search by name
-GET https://localhost:5001/api/Service/getByName/BBB
+GET https://localhost:5001/api/Service/getByName/Banho
 
 ### update an existing service by ID 
 PUT https://localhost:5001/api/Service/put/3
 Content-Type: application/json
 
 {
-    "Name": "Cini Abacaxi",
-    "Description": "Refri",
-    "Code": "BBB",
+    "Name": "Tosa",
+    "Description": "Tosa no animal",
+    "Code": "0101",
     "UnitPrice": 250.00
 }
 

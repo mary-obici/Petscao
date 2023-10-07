@@ -17,13 +17,13 @@ PUT https://localhost:5001/api/Employee/put/1
 Content-Type: application/json
 
 {
-    "Name": "fsssssdf 01",
-    "CPF": "dfss 01",
-    "Phone": "00000sfs00000001",
+    "Name": "Funcionario Mayara 2",
+    "CPF": "12589745822",
+    "Phone": "41988201587",
     "Email": "teste@teste.com",
     "AddressId": 2
 }
 
 
 ### deletion of a Customer by ID
-DELETE https://localhost:5001/api/Employee/delete/4
+DELETE https://localhost:5001/api/Employee/delete/2

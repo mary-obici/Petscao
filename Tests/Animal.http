@@ -12,7 +12,7 @@ GET https://localhost:5001/api/Animal/getAll
 
 
 ### search by ID or NAME, but it's not searching
-GET https://localhost:5001/api/Address/getByName/aaaaaaaaaaa
+GET https://localhost:5001/api/Animal/getByName/Eros
 
 ### update an existing address by ID 
 PUT https://localhost:5001/api/Animal/put/1
@@ -21,7 +21,7 @@ Content-Type: application/json
 {
     "Name": "Animal 1'",
     "Breed": "raça",
-    "CustomerId": 4
+    "CustomerId": 1
 }
 
 

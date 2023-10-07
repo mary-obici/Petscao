@@ -14,18 +14,18 @@ GET https://localhost:5001/api/Customer/getAll
 
 
 ### search by ID or NAME, but it's not searching
-GET https://localhost:5001/api/Customer/getByStreet/aaaaaaaaaaa
+GET https://localhost:5001/api/Customer/getByName/Bruno
 
 ### update an existing Customer by ID 
 PUT https://localhost:5001/api/Customer/put/1
 Content-Type: application/json
 
 {
-    "Name": "Customer 01",
-    "CPF": "00000000000",
-    "Phone": "00000000000",
+    "Name": "Bianca",
+    "CPF": "13307908745",
+    "Phone": "41988684574",
     "Email": "teste@teste.com",
-    "AddressId": 1
+    "AddressId": 2
 }
 
 

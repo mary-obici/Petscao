@@ -3,10 +3,10 @@ POST https://localhost:5001/api/Address/post
 Content-Type: application/json
 
 {
-    "Street": "TESTE",
-    "Number": 159,
-    "Neighborhood": "TESTE2",
-    "City": "TESTE",
+    "Street": "Rua silvio duarte",
+    "Number": 103,
+    "Neighborhood": "Novo mundo",
+    "City": "Curitiba",
     "CEP": "8745267-78"
 }
 
@@ -18,15 +18,15 @@ GET https://localhost:5001/api/Address/getAll
 GET https://localhost:5001/api/Address/getByStreet/Equador
 
 ### update an existing address by ID 
-PUT https://localhost:5001/api/Address/put/4
+PUT https://localhost:5001/api/Address/put/5
 Content-Type: application/json
 
 { 
-    "Street": "TESTE",
-    "Number": 15,
-    "Neighborhood": "AAA",
-    "City": "AAAA",
-    "CEP": "2222"
+    "Street": "Rua silvio duarte",
+    "Number": 103,
+    "Neighborhood": "Novo Mundo",
+    "City": "Curitiba",
+    "CEP": "8745267-78"
 }
 
 
