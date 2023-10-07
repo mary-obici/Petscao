@@ -34,32 +34,6 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("post")]
-        public IActionResult Post([FromBody] Supplier supplier)
-        {
-            try
-            {
-                Address address = _ctx.Adresses.Find(supplier.AddressId);
-
-                if (address == null) {
-                    return NotFound();
-                }
-
-                supplier.CreatedAt = DateTime.UtcNow;
-                supplier.Address = address;
-
-                _ctx.Suppliers.Add(supplier);
-                _ctx.SaveChanges();
-
-                return Created("", supplier);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
         [HttpGet]
         [Route("getByString/{name}")]
         public IActionResult GetByName([FromRoute] string name)
@@ -81,23 +55,26 @@ namespace WebApi.Controllers
                 return BadRequest(e.Message);
             }
         }
-
-        [HttpDelete]
-        [Route("delete/{id}")]
-        public IActionResult Delete([FromRoute] int id)
+        
+        [HttpPost]
+        [Route("post")]
+        public IActionResult Post([FromBody] Supplier supplier)
         {
             try
             {
-                Supplier? supplier = _ctx.Suppliers.Find(id);
+                Address address = _ctx.Adresses.Find(supplier.AddressId);
 
-                if (supplier != null)
-                {
-                    _ctx.Suppliers.Remove(supplier);
-                    _ctx.SaveChanges();
-                    return Ok();
+                if (address == null) {
+                    return NotFound();
                 }
 
-                return NotFound();
+                supplier.CreatedAt = DateTime.UtcNow;
+                supplier.Address = address;
+
+                _ctx.Suppliers.Add(supplier);
+                _ctx.SaveChanges();
+
+                return Created("", supplier);
             }
             catch (Exception e)
             {
@@ -132,6 +109,29 @@ namespace WebApi.Controllers
                     _ctx.Suppliers.Update(existingSupplier);
                     _ctx.SaveChanges();
 
+                    return Ok();
+                }
+
+                return NotFound();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpDelete]
+        [Route("delete/{id}")]
+        public IActionResult Delete([FromRoute] int id)
+        {
+            try
+            {
+                Supplier? supplier = _ctx.Suppliers.Find(id);
+
+                if (supplier != null)
+                {
+                    _ctx.Suppliers.Remove(supplier);
+                    _ctx.SaveChanges();
                     return Ok();
                 }
 

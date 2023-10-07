@@ -35,32 +35,6 @@ public class AnimalController : ControllerBase
         }
     }
 
-    [HttpPost]
-    [Route("post")]
-    public IActionResult Post([FromBody] Animal animal)
-    {
-        try
-        {
-            Customer customer = _ctx.Customers.Find(animal.CustomerId);
-
-            if (customer == null) {
-                return NotFound();
-            }
-
-            animal.CreatedAt = DateTime.UtcNow;
-            animal.Customer = customer;
-
-            _ctx.Animals.Add(animal);
-            _ctx.SaveChanges();
-            
-            return Created("", animal);
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
-    }
-
     [HttpGet]
     [Route("getByName/{name}")]
     public IActionResult GetByName([FromRoute] string name)
@@ -83,22 +57,25 @@ public class AnimalController : ControllerBase
         }
     }
 
-    [HttpDelete]
-    [Route("Delete/{id}")]
-    public IActionResult Delete([FromRoute] int id)
+    [HttpPost]
+    [Route("post")]
+    public IActionResult Post([FromBody] Animal animal)
     {
         try
         {
-            Animal? animal = _ctx.Animals.Find(id);
+            Customer customer = _ctx.Customers.Find(animal.CustomerId);
 
-            if (animal != null)
-            {
-                _ctx.Animals.Remove(animal);
-                _ctx.SaveChanges();
-                return Ok();
+            if (customer == null) {
+                return NotFound();
             }
 
-            return NotFound();
+            animal.CreatedAt = DateTime.UtcNow;
+            animal.Customer = customer;
+
+            _ctx.Animals.Add(animal);
+            _ctx.SaveChanges();
+            
+            return Created("", animal);
         }
         catch (Exception e)
         {
@@ -130,6 +107,29 @@ public class AnimalController : ControllerBase
                 
                 return Ok();
             }
+            return NotFound();
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpDelete]
+    [Route("Delete/{id}")]
+    public IActionResult Delete([FromRoute] int id)
+    {
+        try
+        {
+            Animal? animal = _ctx.Animals.Find(id);
+
+            if (animal != null)
+            {
+                _ctx.Animals.Remove(animal);
+                _ctx.SaveChanges();
+                return Ok();
+            }
+
             return NotFound();
         }
         catch (Exception e)

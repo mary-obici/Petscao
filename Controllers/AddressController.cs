@@ -30,23 +30,6 @@ public class AddressController : ControllerBase
         }
     }
 
-    [HttpPost]
-    [Route("post")]
-    public IActionResult Post([FromBody] Address address)
-    {
-        try
-        {
-            address.CreatedAt = DateTime.UtcNow;
-            _ctx.Adresses.Add(address);
-            _ctx.SaveChanges();
-            return Created("", address);
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
-    }
-
     [HttpGet]
     [Route("getByStreet/{street}")]
     public IActionResult GetByStreet([FromRoute] string street)
@@ -66,20 +49,16 @@ public class AddressController : ControllerBase
         }
     }
 
-    [HttpDelete]
-    [Route("Delete/{id}")]
-    public IActionResult Delete([FromRoute] int id)
+    [HttpPost]
+    [Route("post")]
+    public IActionResult Post([FromBody] Address address)
     {
         try
         {
-            Address? adresses = _ctx.Adresses.Find(id);
-            if (adresses != null)
-            {
-                _ctx.Adresses.Remove(adresses);
-                _ctx.SaveChanges();
-                return Ok();
-            }
-            return NotFound();
+            address.CreatedAt = DateTime.UtcNow;
+            _ctx.Adresses.Add(address);
+            _ctx.SaveChanges();
+            return Created("", address);
         }
         catch (Exception e)
         {
@@ -105,6 +84,27 @@ public class AddressController : ControllerBase
                 _ctx.Adresses.Update(adresses);
                 _ctx.SaveChanges();
 
+                return Ok();
+            }
+            return NotFound();
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpDelete]
+    [Route("Delete/{id}")]
+    public IActionResult Delete([FromRoute] int id)
+    {
+        try
+        {
+            Address? adresses = _ctx.Adresses.Find(id);
+            if (adresses != null)
+            {
+                _ctx.Adresses.Remove(adresses);
+                _ctx.SaveChanges();
                 return Ok();
             }
             return NotFound();

@@ -35,34 +35,6 @@ public class CustomerController : ControllerBase
         }
     }
 
-    [HttpPost]
-    [Route("post")]
-    public IActionResult Post([FromBody] Customer customer)
-    {
-        try
-        {
-            Address address = _ctx.Adresses.Find(customer.AddressId);
-
-            if (address == null) {
-                return NotFound();
-            }
-
-            customer.CreatedAt = DateTime.UtcNow;
-            customer.Address = address;
-
-            _ctx.Customers.Add(customer);
-            _ctx.SaveChanges();
-            
-            return Created("", customer);
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
-    }
-
-    
-
     [HttpGet]
     [Route("getByName/{name}")]
     public IActionResult GetByName([FromRoute] string name)
@@ -85,22 +57,25 @@ public class CustomerController : ControllerBase
         }
     }
 
-    [HttpDelete]
-    [Route("Delete/{id}")]
-    public IActionResult Delete([FromRoute] int id)
+    [HttpPost]
+    [Route("post")]
+    public IActionResult Post([FromBody] Customer customer)
     {
         try
         {
-            Customer? customer = _ctx.Customers.Find(id);
+            Address address = _ctx.Adresses.Find(customer.AddressId);
 
-            if (customer != null)
-            {
-                _ctx.Customers.Remove(customer);
-                _ctx.SaveChanges();
-                return Ok();
+            if (address == null) {
+                return NotFound();
             }
 
-            return NotFound();
+            customer.CreatedAt = DateTime.UtcNow;
+            customer.Address = address;
+
+            _ctx.Customers.Add(customer);
+            _ctx.SaveChanges();
+            
+            return Created("", customer);
         }
         catch (Exception e)
         {
@@ -135,6 +110,29 @@ public class CustomerController : ControllerBase
                 
                 return Ok();
             }
+            return NotFound();
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpDelete]
+    [Route("Delete/{id}")]
+    public IActionResult Delete([FromRoute] int id)
+    {
+        try
+        {
+            Customer? customer = _ctx.Customers.Find(id);
+
+            if (customer != null)
+            {
+                _ctx.Customers.Remove(customer);
+                _ctx.SaveChanges();
+                return Ok();
+            }
+
             return NotFound();
         }
         catch (Exception e)

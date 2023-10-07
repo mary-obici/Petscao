@@ -29,24 +29,6 @@ public class ServiceController : ControllerBase
         }
     }
 
-    [HttpPost]
-    [Route("post")]
-    public IActionResult Post([FromBody] Service service)
-    {
-        try
-        {
-            service.CreatedAt = DateTime.UtcNow;
-
-            _ctx.Services.Add(service);
-            _ctx.SaveChanges();
-            return Created("", service);
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
-    }
-
     [HttpGet]
     [Route("getByName/{name}")]
     public IActionResult GetByName([FromRoute] string name)
@@ -66,20 +48,17 @@ public class ServiceController : ControllerBase
         }
     }
 
-    [HttpDelete]
-    [Route("Delete/{id}")]
-    public IActionResult Delete([FromRoute] int id)
+    [HttpPost]
+    [Route("post")]
+    public IActionResult Post([FromBody] Service service)
     {
         try
         {
-            Service? services = _ctx.Services.Find(id);
-            if (services != null)
-            {
-                _ctx.Services.Remove(services);
-                _ctx.SaveChanges();
-                return Ok();
-            }
-            return NotFound();
+            service.CreatedAt = DateTime.UtcNow;
+
+            _ctx.Services.Add(service);
+            _ctx.SaveChanges();
+            return Created("", service);
         }
         catch (Exception e)
         {
@@ -102,6 +81,27 @@ public class ServiceController : ControllerBase
                 services.UnitPrice = service.UnitPrice;
                 
                 _ctx.Services.Update(services);
+                _ctx.SaveChanges();
+                return Ok();
+            }
+            return NotFound();
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpDelete]
+    [Route("Delete/{id}")]
+    public IActionResult Delete([FromRoute] int id)
+    {
+        try
+        {
+            Service? services = _ctx.Services.Find(id);
+            if (services != null)
+            {
+                _ctx.Services.Remove(services);
                 _ctx.SaveChanges();
                 return Ok();
             }

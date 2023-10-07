@@ -34,6 +34,28 @@ namespace WebApi.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("getByString/{name}")]
+        public IActionResult GetByName([FromRoute] string name)
+        {
+            try
+            {
+                Employee? employee = _ctx.Employees
+                    .Include(x => x.Address)
+                    .FirstOrDefault(x => x.Name == name);
+
+                if (employee != null)
+                {
+                    return Ok(employee);
+                }
+                return NotFound();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpPost]
         [Route("post")]
         public IActionResult Post([FromBody] Employee employee)
@@ -61,20 +83,36 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("getByString/{name}")]
-        public IActionResult GetByName([FromRoute] string name)
+        [HttpPut]
+        [Route("put/{id}")]
+        public IActionResult Put([FromRoute] int id, [FromBody] Employee employee)
         {
             try
             {
-                Employee? employee = _ctx.Employees
-                    .Include(x => x.Address)
-                    .FirstOrDefault(x => x.Name == name);
+                Address address = _ctx.Adresses.Find(employee.AddressId);
 
-                if (employee != null)
+                if (address == null)
                 {
-                    return Ok(employee);
+                    return NotFound();
                 }
+
+                Employee? existingEmployee = _ctx.Employees.FirstOrDefault(x => x.EmployeeId == id);
+
+                if (existingEmployee != null)
+                {
+                    existingEmployee.Name = employee.Name;
+                    existingEmployee.CPF = employee.CPF;
+                    existingEmployee.Phone = employee.Phone;
+                    existingEmployee.Email = employee.Email;
+
+                    existingEmployee.Address = address;
+
+                    _ctx.Employees.Update(existingEmployee);
+                    _ctx.SaveChanges();
+
+                    return Ok();
+                }
+
                 return NotFound();
             }
             catch (Exception e)
@@ -83,68 +121,28 @@ namespace WebApi.Controllers
             }
         }
 
-    
-
-    [HttpDelete]
-    [Route("delete/{id}")]
-    public IActionResult Delete([FromRoute] int id)
-    {
-        try
+        [HttpDelete]
+        [Route("delete/{id}")]
+        public IActionResult Delete([FromRoute] int id)
         {
-            Employee? employee = _ctx.Employees.Find(id);
-
-            if (employee != null)
+            try
             {
-                _ctx.Employees.Remove(employee);
-                _ctx.SaveChanges();
-                return Ok();
-            }
+                Employee? employee = _ctx.Employees.Find(id);
 
-            return NotFound();
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
-    }
+                if (employee != null)
+                {
+                    _ctx.Employees.Remove(employee);
+                    _ctx.SaveChanges();
+                    return Ok();
+                }
 
-    [HttpPut]
-    [Route("put/{id}")]
-    public IActionResult Put([FromRoute] int id, [FromBody] Employee employee)
-    {
-        try
-        {
-            Address address = _ctx.Adresses.Find(employee.AddressId);
-
-            if (address == null)
-            {
                 return NotFound();
             }
-
-            Employee? existingEmployee = _ctx.Employees.FirstOrDefault(x => x.EmployeeId == id);
-
-            if (existingEmployee != null)
+            catch (Exception e)
             {
-                existingEmployee.Name = employee.Name;
-                existingEmployee.CPF = employee.CPF;
-                existingEmployee.Phone = employee.Phone;
-                existingEmployee.Email = employee.Email;
-
-                existingEmployee.Address = address;
-
-                _ctx.Employees.Update(existingEmployee);
-                _ctx.SaveChanges();
-
-                return Ok();
+                return BadRequest(e.Message);
             }
-
-            return NotFound();
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
         }
     }
-}
 }
 

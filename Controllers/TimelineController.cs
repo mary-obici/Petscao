@@ -28,96 +28,9 @@ namespace WebApi.Controllers
                     .Include(x => x.Animal)
                     .Include(x => x.Service)
                     .Include(x => x.Employee)
-                    .Include(x => x.StartDate)
-
                     .ToList();
 
-                return timelines.Count == 0 ? NotFound() : Ok(timelines);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
-        [HttpPost]
-        [Route("post")]
-        public IActionResult Post([FromBody] Timeline timeline)
-        {
-            try
-            {
-                Customer customer = _ctx.Customers.Find(timeline.CustomerId);
-
-                if (customer == null)
-                {
-                    return NotFound();
-                }
-
-                Animal animal = _ctx.Animals.Find(timeline.AnimalId);
-
-                if (animal == null)
-                {
-                    return NotFound();
-                }
-
-                if (animal.CustomerId != timeline.CustomerId)
-                {
-                    return BadRequest("O animal não pertence ao cliente especificado.");
-                }
-
-                Service service = _ctx.Services.Find(timeline.ServiceId);
-
-                if (service == null)
-                {
-                    return NotFound();
-                }
-
-                Employee employee = _ctx.Employees.Find(timeline.EmployeeId);
-
-                if (employee == null)
-                {
-                    return NotFound();
-                }
-
-                //select agendamentos where idEmployee == recebido request 
-                List <Timeline> agendamentos = _ctx.Timeline.Where(timelineAgendadas => timelineAgendadas.EmployeeId 
-                == timeline.EmployeeId).ToList();
-
-                    bool horarioSobrepoe = agendamentos.Any(registro =>
-                    //14h >= 14h && 14h <= 14:30 || 
-                    // 13:30 >= 14h && 13:30 <= 14:30 
-                    (timeline.StartDate >= registro.StartDate && timeline.StartDate <= registro.EndDate) ||
-                    (timeline.EndDate >= registro.StartDate && timeline.EndDate <= registro.EndDate));
-                    // 14:30 >= 14h && 14:30 <= 14:30
-
-                    if(horarioSobrepoe == true ){
-                        return BadRequest("Horário ocupado! Altere para um disponível");
-                    }
-
-                //verifica null, alterar o que recebe para pt-br 
-                DateTime? startDate = DateTime.ParseExact(timeline.StartDate?.ToString("dd/MM/yyyy HH:mm") ??
-                "01/01/2000 00:00", "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
-
-                DateTime? endDate = DateTime.ParseExact(timeline.EndDate?.ToString("dd/MM/yyyy HH:mm") ??
-                "01/01/2000 00:00", "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
-
-                if (startDate >= endDate)
-                {
-                    return BadRequest("A data de início deve ser anterior à data de término.");
-                }
-
-                timeline.CreatedAt = DateTime.UtcNow;
-                timeline.Customer = customer;
-                timeline.Animal = animal;
-                timeline.Service = service;
-                timeline.Employee = employee;
-                timeline.StartDate = startDate;
-                timeline.EndDate = endDate;
-
-                _ctx.Timeline.Add(timeline);
-                _ctx.SaveChanges();
-
-                return Created("", timeline);
+                return timelines.Count == 0 ? NotFound("Não existe agendamentos!") : Ok(timelines);
             }
             catch (Exception e)
             {
@@ -142,6 +55,7 @@ namespace WebApi.Controllers
                 {
                     return Ok(timeline);
                 }
+
                 return NotFound();
             }
             catch (Exception e)
@@ -150,22 +64,86 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpDelete]
-        [Route("Delete/{id}")]
-        public IActionResult Delete([FromRoute] int id)
+        [HttpPost]
+        [Route("post")]
+        public IActionResult Post([FromBody] Timeline timeline)
         {
             try
             {
-                Timeline? timeline = _ctx.Timeline.Find(id);
+                Customer customer = _ctx.Customers.Find(timeline.CustomerId);
 
-                if (timeline != null)
+                if (customer == null)
                 {
-                    _ctx.Timeline.Remove(timeline);
-                    _ctx.SaveChanges();
-                    return Ok();
+                    return NotFound("O cliente informado não existe!");
                 }
 
-                return NotFound();
+                Animal animal = _ctx.Animals.Find(timeline.AnimalId);
+
+                if (animal == null)
+                {
+                    return NotFound("O animal informado não existe!");
+                }
+
+                if (animal.CustomerId != timeline.CustomerId)
+                {
+                    return BadRequest("O animal não pertence ao cliente especificado.");
+                }
+
+                Service service = _ctx.Services.Find(timeline.ServiceId);
+
+                if (service == null)
+                {
+                    return NotFound("O serviço informado não existe");
+                }
+
+                Employee employee = _ctx.Employees.Find(timeline.EmployeeId);
+
+                if (employee == null)
+                {
+                    return NotFound("O funcionário informado não existe");
+                }
+
+                //select agendamentos where idEmployee == recebido request 
+                List <Timeline> agendamentosInDb = _ctx.Timeline
+                    .Where(timelineAgendadas => timelineAgendadas.EmployeeId == timeline.EmployeeId)
+                    .ToList();
+
+                    //14h >= 14h && 14h <= 14:30 || 
+                    // 13:30 >= 14h && 13:30 <= 14:30 
+                    // 14:30 >= 14h && 14:30 <= 14:30
+
+                    bool newTime = agendamentosInDb.Any(registro =>
+                        (timeline.StartDate >= registro.StartDate && timeline.StartDate <= registro.EndDate) ||
+                        (timeline.EndDate >= registro.StartDate && timeline.EndDate <= registro.EndDate));
+
+                    if (newTime == true ) {
+                        return BadRequest("Horário ocupado! Altere para um disponível");
+                    }
+
+                //verifica null, alterar o que recebe para pt-br 
+                DateTime? startDate = DateTime.ParseExact(timeline.StartDate?.ToString("dd/MM/yyyy HH:mm") ??
+                    "01/01/2000 00:00", "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
+
+                DateTime? endDate = DateTime.ParseExact(timeline.EndDate?.ToString("dd/MM/yyyy HH:mm") ??
+                    "01/01/2000 00:00", "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
+
+                if (startDate >= endDate)
+                {
+                    return BadRequest("A data de início deve ser anterior à data de término.");
+                }
+
+                timeline.CreatedAt = DateTime.UtcNow;
+                timeline.Customer = customer;
+                timeline.Animal = animal;
+                timeline.Service = service;
+                timeline.Employee = employee;
+                timeline.StartDate = startDate;
+                timeline.EndDate = endDate;
+
+                _ctx.Timeline.Add(timeline);
+                _ctx.SaveChanges();
+
+                return Created("Agendamento criado!", timeline);
             }
             catch (Exception e)
             {
@@ -183,35 +161,50 @@ namespace WebApi.Controllers
 
                 if (customer == null)
                 {
-                    return NotFound();
+                    return NotFound("O cliente informado não existe!");
                 }
 
                 Animal animal = _ctx.Animals.Find(timeline.AnimalId);
 
                 if (animal == null)
                 {
-                    return NotFound();
+                    return NotFound("O animal informado não existe!");
                 }
 
                 Service service = _ctx.Services.Find(timeline.ServiceId);
 
                 if (service == null)
                 {
-                    return NotFound();
+                    return NotFound("O serviço informado não existe!");
                 }
 
                 Employee employee = _ctx.Employees.Find(timeline.EmployeeId);
 
                 if (employee == null)
                 {
-                    return NotFound();
+                    return NotFound("O funcionario informado não existe!");
                 }
 
-                DateTime? startDate = DateTime.ParseExact(timeline.StartDate?.ToString("dd/MM/yyyy HH:mm:ss") ??
-                "01/01/2000 00:00:00", "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                //select agendamentos where idEmployee == recebido request 
+                List <Timeline> agendamentosInDb = _ctx.Timeline
+                    .Where(timelineAgendadas => timelineAgendadas.EmployeeId == timeline.EmployeeId)
+                    .ToList();
 
-                DateTime? endDate = DateTime.ParseExact(timeline.EndDate?.ToString("dd/MM/yyyy HH:mm:ss") ??
-                "01/01/2000 00:00:00", "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+                    //14h >= 14h && 14h <= 14:30 || 
+                    // 13:30 >= 14h && 13:30 <= 14:30 
+                    // 14:30 >= 14h && 14:30 <= 14:30
+
+                bool newTime = agendamentosInDb.Any(registro =>
+                    (timeline.StartDate >= registro.StartDate && timeline.StartDate <= registro.EndDate) ||
+                    (timeline.EndDate >= registro.StartDate && timeline.EndDate <= registro.EndDate));
+
+
+                //verifica null, alterar o que recebe para pt-br 
+                DateTime? startDate = DateTime.ParseExact(timeline.StartDate?.ToString("dd/MM/yyyy HH:mm") ??
+                    "01/01/2000 00:00", "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
+
+                DateTime? endDate = DateTime.ParseExact(timeline.EndDate?.ToString("dd/MM/yyyy HH:mm") ??
+                    "01/01/2000 00:00", "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
 
                 if (startDate >= endDate)
                 {
@@ -232,6 +225,29 @@ namespace WebApi.Controllers
                     _ctx.Timeline.Update(existingTimeline);
                     _ctx.SaveChanges();
 
+                    return Ok();
+                }
+
+                return NotFound("Não foi possível alterar o agendamento!");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpDelete]
+        [Route("Delete/{id}")]
+        public IActionResult Delete([FromRoute] int id)
+        {
+            try
+            {
+                Timeline? timeline = _ctx.Timeline.Find(id);
+
+                if (timeline != null)
+                {
+                    _ctx.Timeline.Remove(timeline);
+                    _ctx.SaveChanges();
                     return Ok();
                 }
 
