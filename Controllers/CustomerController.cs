@@ -2,142 +2,156 @@ using Petscao.Data;
 using Petscao.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
-
-namespace WebApi.Controllers;
-
-[ApiController]
-[Route("api/Customer")]
-public class CustomerController : ControllerBase
+namespace WebApi.Controllers
 {
-    private readonly AppDataContext _ctx;
-    public CustomerController(AppDataContext ctx)
+    [ApiController]
+    [Route("api/Customer")]
+    public class CustomerController : ControllerBase
     {
-        _ctx = ctx;
-    }
-
-    [HttpGet]
-    [Route("getAll")]
-    public IActionResult GetAll()
-    {
-        try
+        private readonly AppDataContext _ctx;
+        public CustomerController(AppDataContext ctx)
         {
-            List<Customer> customers = 
-                _ctx.Customers
-                .Include(x =>  x.Address)
-                .ToList();
-
-            return customers.Count == 0 ? NotFound() : Ok(customers);
+            _ctx = ctx;
         }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
-    }
 
-    [HttpGet]
-    [Route("getByName/{name}")]
-    public IActionResult GetByName([FromRoute] string name)
-    {
-        try
+        [HttpGet]
+        [Route("getAll")]
+        public IActionResult GetAll()
         {
-            Customer? customer = 
-                _ctx.Customers
-                .Include(x => x.Address)
-                .FirstOrDefault(x => x.Name == name);
-            if (customer != null)
+            try
             {
-                return Ok(customer);
+                List<Customer> customers =
+                    _ctx.Customers
+                    .Include(x => x.Address)
+                    .ToList();
+
+                if (customers.Count == 0)
+                {
+                    return NotFound("Nenhum cliente encontrado.");
+                }
+
+                return Ok(customers);
             }
-            return NotFound();
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
-    }
-
-    [HttpPost]
-    [Route("post")]
-    public IActionResult Post([FromBody] Customer customer)
-    {
-        try
-        {
-            Address address = _ctx.Adresses.Find(customer.AddressId);
-
-            if (address == null) {
-                return NotFound();
-            }
-
-            customer.CreatedAt = DateTime.UtcNow;
-            customer.Address = address;
-
-            _ctx.Customers.Add(customer);
-            _ctx.SaveChanges();
-            
-            return Created("", customer);
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
-    }
-
-    [HttpPut]
-    [Route("put/{id}")]
-    public IActionResult Put([FromRoute] int id, [FromBody] Customer customer)
-    {
-        try
-        {
-            Address address = _ctx.Adresses.Find(customer.AddressId);
-
-            if (address == null) {
-                return NotFound();
-            }
-
-            Customer? customers = _ctx.Customers.FirstOrDefault(x => x.CustomerId == id);
-            if (customers != null)
+            catch (Exception e)
             {
-                customers.Name = customer.Name;
-                customers.CPF = customer.CPF;
-                customers.Phone = customer.Phone;
-                customers.Email = customer.Email;
+                return BadRequest($"Erro ao buscar clientes: {e.Message}");
+            }
+        }
 
-                customers.Address = address;
+        [HttpGet]
+        [Route("getByName/{name}")]
+        public IActionResult GetByName([FromRoute] string name)
+        {
+            try
+            {
+                Customer customer =
+                    _ctx.Customers
+                    .Include(x => x.Address)
+                    .FirstOrDefault(x => x.Name == name);
 
-                _ctx.Customers.Update(customers);
+                if (customer != null)
+                {
+                    return Ok(customer);
+                }
+
+                return NotFound($"Cliente com o nome '{name}' não encontrado.");
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"Erro ao buscar cliente: {e.Message}");
+            }
+        }
+
+        [HttpPost]
+        [Route("post")]
+        public IActionResult Post([FromBody] Customer customer)
+        {
+            try
+            {
+                Address address = _ctx.Adresses.Find(customer.AddressId);
+
+                if (address == null)
+                {
+                    return NotFound("Endereço não encontrado.");
+                }
+
+                customer.CreatedAt = DateTime.UtcNow;
+                customer.Address = address;
+
+                _ctx.Customers.Add(customer);
                 _ctx.SaveChanges();
-                
-                return Ok();
+
+                return Created("", customer);
             }
-            return NotFound();
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
-    }
-
-    [HttpDelete]
-    [Route("Delete/{id}")]
-    public IActionResult Delete([FromRoute] int id)
-    {
-        try
-        {
-            Customer? customer = _ctx.Customers.Find(id);
-
-            if (customer != null)
+            catch (Exception e)
             {
-                _ctx.Customers.Remove(customer);
-                _ctx.SaveChanges();
-                return Ok();
+                return BadRequest($"Erro ao criar cliente: {e.Message}");
             }
-
-            return NotFound();
         }
-        catch (Exception e)
+
+        [HttpPut]
+        [Route("put/{id}")]
+        public IActionResult Put([FromRoute] int id, [FromBody] Customer customer)
         {
-            return BadRequest(e.Message);
+            try
+            {
+                Address address = _ctx.Adresses.Find(customer.AddressId);
+
+                if (address == null)
+                {
+                    return NotFound("Endereço não encontrado.");
+                }
+
+                Customer existingCustomer = _ctx.Customers.FirstOrDefault(x => x.CustomerId == id);
+
+                if (existingCustomer != null)
+                {
+                    existingCustomer.Name = customer.Name;
+                    existingCustomer.CPF = customer.CPF;
+                    existingCustomer.Phone = customer.Phone;
+                    existingCustomer.Email = customer.Email;
+
+                    existingCustomer.Address = address;
+
+                    _ctx.Customers.Update(existingCustomer);
+                    _ctx.SaveChanges();
+
+                    return Ok();
+                }
+
+                return NotFound($"Cliente com ID '{id}' não encontrado.");
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"Erro ao atualizar cliente: {e.Message}");
+            }
+        }
+
+        [HttpDelete]
+        [Route("Delete/{id}")]
+        public IActionResult Delete([FromRoute] int id)
+        {
+            try
+            {
+                Customer customer = _ctx.Customers.Find(id);
+
+                if (customer != null)
+                {
+                    _ctx.Customers.Remove(customer);
+                    _ctx.SaveChanges();
+                    return Ok();
+                }
+
+                return NotFound($"Cliente com ID '{id}' não encontrado.");
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"Erro ao excluir cliente: {e.Message}");
+            }
         }
     }
 }

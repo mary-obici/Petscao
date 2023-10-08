@@ -31,4 +31,4 @@ Content-Type: application/json
 
 
 ### deletion of a address by ID
-DELETE https://localhost:5001/api/Address/delete/4
+DELETE https://localhost:5001/api/Address/delete/6

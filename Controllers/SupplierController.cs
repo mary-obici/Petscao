@@ -2,6 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Petscao.Data;
 using Petscao.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace WebApi.Controllers
 {
@@ -10,7 +13,7 @@ namespace WebApi.Controllers
     public class SupplierController : ControllerBase
     {
         private readonly AppDataContext _ctx;
-        
+
         public SupplierController(AppDataContext ctx)
         {
             _ctx = ctx;
@@ -26,11 +29,16 @@ namespace WebApi.Controllers
                     .Include(x => x.Address)
                     .ToList();
 
-                return suppliers.Count == 0 ? NotFound() : Ok(suppliers);
+                if (suppliers.Count == 0)
+                {
+                    return NotFound("Nenhum fornecedor encontrado.");
+                }
+
+                return Ok(suppliers);
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest($"Erro ao buscar fornecedores: {e.Message}");
             }
         }
 
@@ -40,7 +48,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                Supplier? supplier = _ctx.Suppliers
+                Supplier supplier = _ctx.Suppliers
                     .Include(x => x.Address)
                     .FirstOrDefault(x => x.FantasyName == name);
 
@@ -48,14 +56,15 @@ namespace WebApi.Controllers
                 {
                     return Ok(supplier);
                 }
-                return NotFound();
+
+                return NotFound($"Fornecedor com o nome '{name}' não encontrado.");
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest($"Erro ao buscar fornecedor: {e.Message}");
             }
         }
-        
+
         [HttpPost]
         [Route("post")]
         public IActionResult Post([FromBody] Supplier supplier)
@@ -64,8 +73,9 @@ namespace WebApi.Controllers
             {
                 Address address = _ctx.Adresses.Find(supplier.AddressId);
 
-                if (address == null) {
-                    return NotFound();
+                if (address == null)
+                {
+                    return NotFound("Endereço não encontrado.");
                 }
 
                 supplier.CreatedAt = DateTime.UtcNow;
@@ -78,7 +88,7 @@ namespace WebApi.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest($"Erro ao criar fornecedor: {e.Message}");
             }
         }
 
@@ -90,11 +100,12 @@ namespace WebApi.Controllers
             {
                 Address address = _ctx.Adresses.Find(supplier.AddressId);
 
-                if (address == null) {
-                    return NotFound();
+                if (address == null)
+                {
+                    return NotFound("Endereço não encontrado.");
                 }
 
-                Supplier? existingSupplier = _ctx.Suppliers.FirstOrDefault(x => x.SupplierId == id);
+                Supplier existingSupplier = _ctx.Suppliers.FirstOrDefault(x => x.SupplierId == id);
 
                 if (existingSupplier != null)
                 {
@@ -112,11 +123,11 @@ namespace WebApi.Controllers
                     return Ok();
                 }
 
-                return NotFound();
+                return NotFound($"Fornecedor com ID '{id}' não encontrado.");
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest($"Erro ao atualizar fornecedor: {e.Message}");
             }
         }
 
@@ -126,7 +137,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                Supplier? supplier = _ctx.Suppliers.Find(id);
+                Supplier supplier = _ctx.Suppliers.Find(id);
 
                 if (supplier != null)
                 {
@@ -135,11 +146,11 @@ namespace WebApi.Controllers
                     return Ok();
                 }
 
-                return NotFound();
+                return NotFound($"Fornecedor com ID '{id}' não encontrado.");
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest($"Erro ao excluir fornecedor: {e.Message}");
             }
         }
     }

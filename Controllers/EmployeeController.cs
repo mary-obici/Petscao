@@ -2,6 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Petscao.Data;
 using Petscao.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace WebApi.Controllers
 {
@@ -26,11 +29,16 @@ namespace WebApi.Controllers
                     .Include(x => x.Address)
                     .ToList();
 
-                return employees.Count == 0 ? NotFound() : Ok(employees);
+                if (employees.Count == 0)
+                {
+                    return NotFound("Nenhum funcionário encontrado.");
+                }
+
+                return Ok(employees);
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest($"Erro ao buscar funcionários: {e.Message}");
             }
         }
 
@@ -40,7 +48,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                Employee? employee = _ctx.Employees
+                Employee employee = _ctx.Employees
                     .Include(x => x.Address)
                     .FirstOrDefault(x => x.Name == name);
 
@@ -48,11 +56,12 @@ namespace WebApi.Controllers
                 {
                     return Ok(employee);
                 }
-                return NotFound();
+
+                return NotFound($"Funcionário com o nome '{name}' não encontrado.");
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest($"Erro ao buscar funcionário: {e.Message}");
             }
         }
 
@@ -66,7 +75,7 @@ namespace WebApi.Controllers
 
                 if (address == null)
                 {
-                    return NotFound();
+                    return NotFound("Endereço não encontrado.");
                 }
 
                 employee.CreatedAt = DateTime.UtcNow;
@@ -79,7 +88,7 @@ namespace WebApi.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest($"Erro ao criar funcionário: {e.Message}");
             }
         }
 
@@ -93,10 +102,10 @@ namespace WebApi.Controllers
 
                 if (address == null)
                 {
-                    return NotFound();
+                    return NotFound("Endereço não encontrado.");
                 }
 
-                Employee? existingEmployee = _ctx.Employees.FirstOrDefault(x => x.EmployeeId == id);
+                Employee existingEmployee = _ctx.Employees.FirstOrDefault(x => x.EmployeeId == id);
 
                 if (existingEmployee != null)
                 {
@@ -113,11 +122,11 @@ namespace WebApi.Controllers
                     return Ok();
                 }
 
-                return NotFound();
+                return NotFound($"Funcionário com ID '{id}' não encontrado.");
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest($"Erro ao atualizar funcionário: {e.Message}");
             }
         }
 
@@ -127,7 +136,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                Employee? employee = _ctx.Employees.Find(id);
+                Employee employee = _ctx.Employees.Find(id);
 
                 if (employee != null)
                 {
@@ -136,13 +145,12 @@ namespace WebApi.Controllers
                     return Ok();
                 }
 
-                return NotFound();
+                return NotFound($"Funcionário com ID '{id}' não encontrado.");
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest($"Erro ao excluir funcionário: {e.Message}");
             }
         }
     }
 }
-

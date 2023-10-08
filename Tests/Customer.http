@@ -6,7 +6,7 @@ Content-Type: application/json
     "CPF": "0025478964",
     "Phone": "41852369741",
     "Email": "bruno@teste.com",
-    "AddressId": 2
+    "AddressId": 7
 }
 
 ### get all Customer 
@@ -30,4 +30,4 @@ Content-Type: application/json
 
 
 ### deletion of a Customer by ID
-DELETE https://localhost:5001/api/Customer/delete/1
+DELETE https://localhost:5001/api/Customer/delete/2

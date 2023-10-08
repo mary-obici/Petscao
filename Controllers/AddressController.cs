@@ -1,117 +1,124 @@
 using Petscao.Data;
 using Petscao.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
-
-namespace WebApi.Controllers;
-
-[ApiController]
-[Route("api/Address")]
-public class AddressController : ControllerBase
+namespace WebApi.Controllers
 {
-    private readonly AppDataContext _ctx;
-    public AddressController(AppDataContext ctx)
+    [ApiController]
+    [Route("api/Address")]
+    public class AddressController : ControllerBase
     {
-        _ctx = ctx;
-    }
-
-    [HttpGet]
-    [Route("getAll")]
-    public IActionResult GetAll()
-    {
-        try
+        private readonly AppDataContext _ctx;
+        public AddressController(AppDataContext ctx)
         {
-            List<Address> adresses = _ctx.Adresses.ToList();
-            return adresses.Count == 0 ? NotFound() : Ok(adresses);
+            _ctx = ctx;
         }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
-    }
 
-    [HttpGet]
-    [Route("getByStreet/{street}")]
-    public IActionResult GetByStreet([FromRoute] string street)
-    {
-        try
+        [HttpGet]
+        [Route("getAll")]
+        public IActionResult GetAll()
         {
-            Address? adresses = _ctx.Adresses.FirstOrDefault(x => x.Street == street);
-            if (adresses != null)
+            try
             {
-                return Ok(adresses);
+                List<Address> addresses = _ctx.Adresses.ToList();
+                if (addresses.Count == 0)
+                {
+                    return NotFound("Nenhum endereço encontrado.");
+                }
+                return Ok(addresses);
             }
-            return NotFound();
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
-    }
-
-    [HttpPost]
-    [Route("post")]
-    public IActionResult Post([FromBody] Address address)
-    {
-        try
-        {
-            address.CreatedAt = DateTime.UtcNow;
-            _ctx.Adresses.Add(address);
-            _ctx.SaveChanges();
-            return Created("", address);
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
-    }
-
-    [HttpPut]
-    [Route("put/{id}")]
-    public IActionResult Put([FromRoute] int id, [FromBody] Address address)
-    {
-        try
-        {
-            Address? adresses = _ctx.Adresses.FirstOrDefault(x => x.AddressId == id);
-            if (adresses != null)
+            catch (Exception e)
             {
-                adresses.Street = address.Street;
-                adresses.Number = address.Number;
-                adresses.City = address.City;
-                adresses.Neighborhood = address.Neighborhood;
-                adresses.CEP = address.CEP;
+                return BadRequest($"Erro ao buscar endereços: {e.Message}");
+            }
+        }
 
-                _ctx.Adresses.Update(adresses);
+        [HttpGet]
+        [Route("getByStreet/{street}")]
+        public IActionResult GetByStreet([FromRoute] string street)
+        {
+            try
+            {
+                Address? address = _ctx.Adresses.FirstOrDefault(x => x.Street == street);
+                if (address != null)
+                {
+                    return Ok(address);
+                }
+                return NotFound($"Endereço com a rua '{street}' não encontrado.");
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"Erro ao buscar endereço: {e.Message}");
+            }
+        }
+
+        [HttpPost]
+        [Route("post")]
+        public IActionResult Post([FromBody] Address address)
+        {
+            try
+            {
+                address.CreatedAt = DateTime.UtcNow;
+                _ctx.Adresses.Add(address);
                 _ctx.SaveChanges();
-
-                return Ok();
+                return Created("", address);
             }
-            return NotFound();
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
-    }
-
-    [HttpDelete]
-    [Route("Delete/{id}")]
-    public IActionResult Delete([FromRoute] int id)
-    {
-        try
-        {
-            Address? adresses = _ctx.Adresses.Find(id);
-            if (adresses != null)
+            catch (Exception e)
             {
-                _ctx.Adresses.Remove(adresses);
-                _ctx.SaveChanges();
-                return Ok();
+                return BadRequest($"Erro ao criar endereço: {e.Message}");
             }
-            return NotFound();
         }
-        catch (Exception e)
+
+        [HttpPut]
+        [Route("put/{id}")]
+        public IActionResult Put([FromRoute] int id, [FromBody] Address address)
         {
-            return BadRequest(e.Message);
+            try
+            {
+                Address? existingAddress = _ctx.Adresses.FirstOrDefault(x => x.AddressId == id);
+                if (existingAddress != null)
+                {
+                    existingAddress.Street = address.Street;
+                    existingAddress.Number = address.Number;
+                    existingAddress.City = address.City;
+                    existingAddress.Neighborhood = address.Neighborhood;
+                    existingAddress.CEP = address.CEP;
+
+                    _ctx.Adresses.Update(existingAddress);
+                    _ctx.SaveChanges();
+
+                    return Ok();
+                }
+                return NotFound($"Endereço com ID '{id}' não encontrado.");
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"Erro ao atualizar endereço: {e.Message}");
+            }
+        }
+
+        [HttpDelete]
+        [Route("Delete/{id}")]
+        public IActionResult Delete([FromRoute] int id)
+        {
+            try
+            {
+                Address? address = _ctx.Adresses.Find(id);
+                if (address != null)
+                {
+                    _ctx.Adresses.Remove(address);
+                    _ctx.SaveChanges();
+                    return Ok();
+                }
+                return NotFound($"Endereço com ID '{id}' não encontrado.");
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"Erro ao excluir endereço: {e.Message}");
+            }
         }
     }
 }
