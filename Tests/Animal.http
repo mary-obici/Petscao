@@ -4,7 +4,7 @@ Content-Type: application/json
 {
     "Name": "Eros",
     "Breed": "Gatinho Branco",
-    "CustomerId": 1
+    "CustomerId": 3
 }
 
 ### get all addresses 

@@ -6,7 +6,7 @@ Content-Type: application/json
     "CPF": "00010020023",
     "Phone": "4198264892122",
     "Email": "funcionario1@teste.com",
-    "AddressId": 2
+    "AddressId": 7
 }
 
 ### get all Customer
@@ -21,7 +21,7 @@ Content-Type: application/json
     "CPF": "12589745822",
     "Phone": "41988201587",
     "Email": "teste@teste.com",
-    "AddressId": 2
+    "AddressId": 7
 }
 
 
